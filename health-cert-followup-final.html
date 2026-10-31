@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>نظام متابعة الراسبين في اختبار الشهادة الصحية</title><meta name="theme-color" content="#0f766e">
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><script src="https://accounts.google.com/gsi/client" async defer></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>نظام متابعة الراسبين في اختبار الشهادة الصحية</title><meta name="theme-color" content="#0f766e">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Crect width=%27100%27 height=%27100%27 rx=%2722%27 fill=%27%230f766e%27/%3E%3Cpath d=%27M42 20h16v22h22v16H58v22H42V58H20V42h22z%27 fill=%27white%27/%3E%3C/svg%3E">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -339,9 +339,123 @@ function cleanupCityBranchDuplicate(d){
   }
   return d;
 }
-const Store={load(){for(const k of[KEY,'hc_followup_v2',OLDKEY])try{const d=JSON.parse(localStorage.getItem(k));if(d&&Array.isArray(d.emps)){if(!d._branchExcelV5Applied&&Array.isArray(d.branches)){try{localStorage.setItem('hc_followup_pre_branch_excel_v5_backup',JSON.stringify({savedAt:new Date().toISOString(),data:d}))}catch{}}const m=cleanupCityBranchDuplicate(migrate(d));try{localStorage.setItem(KEY,JSON.stringify(m))}catch{}return m}}catch{}return DEF()},
-save(d){try{localStorage.setItem(KEY,JSON.stringify(d))}catch(e){toast('تعذر الحفظ: '+e.message,'err')}}};
-let db=Store.load(),page='dash',F={},cur=null;const save=()=>Store.save(db);
+/* ===== التخزين: Google Sheets مباشرة من المتصفح (Sheets API) ===== */
+const HCGS={CLIENT_ID:'883966205248-f0v4ei0rpa8v5atplva1s4gmv7re3hgd.apps.googleusercontent.com',SHEET_ID:'1me5TGHqPpHOKk-lJzYQiSjDgsEIIzRImxW-ItUEz5Ng',token:null,exp:0,client:null,pending:null,titles:new Set()};
+const HCGS_API='https://sheets.googleapis.com/v4/spreadsheets/'+HCGS.SHEET_ID;
+const HCSync={snap:{},metaJs:'',ready:false,dirty:new Set(),metaPending:null,timer:null,queue:Promise.resolve()};
+function hcToken(interactive){return new Promise((ok,no)=>{
+  if(HCGS.token&&Date.now()<HCGS.exp-60000)return ok(HCGS.token);
+  if(typeof google==='undefined'||!google.accounts)return no(new Error('خدمة تسجيل الدخول بجوجل لم تُحمَّل بعد'));
+  HCGS.pending={ok,no};
+  if(!HCGS.client)HCGS.client=google.accounts.oauth2.initTokenClient({client_id:HCGS.CLIENT_ID,scope:'https://www.googleapis.com/auth/spreadsheets',
+    callback:r=>{const p=HCGS.pending;HCGS.pending=null;if(!p)return;if(r.error)return p.no(new Error(r.error));HCGS.token=r.access_token;HCGS.exp=Date.now()+(Number(r.expires_in)||3600)*1000;p.ok(HCGS.token)},
+    error_callback:e=>{const p=HCGS.pending;HCGS.pending=null;if(p)p.no(new Error((e&&e.type)||'auth_error'))}});
+  HCGS.client.requestAccessToken({prompt:interactive?'select_account':''});
+});}
+async function hcGsFetch(path,opts){
+  const go=tok=>{const o=Object.assign({},opts||{});o.headers=Object.assign({'Authorization':'Bearer '+tok,'Content-Type':'application/json'},o.headers||{});return fetch(HCGS_API+path,o)};
+  let r=await go(await hcToken(false));
+  if(r.status===401){HCGS.token=null;r=await go(await hcToken(false))}
+  if(!r.ok)throw new Error(r.status+': '+(await r.text()).slice(0,200));
+  return r.json();
+}
+const hcGsRange=n=>"'"+n.replace(/'/g,"''")+"'";
+async function hcGsEnsure(name){
+  if(HCGS.titles.has(name))return;
+  await hcGsFetch(':batchUpdate',{method:'POST',body:JSON.stringify({requests:[{addSheet:{properties:{title:name}}}]})});
+  HCGS.titles.add(name);
+}
+// rows تشمل صف العناوين
+async function hcGsWrite(name,rows){
+  await hcGsEnsure(name);
+  const rng=encodeURI(hcGsRange(name)+'!A:B');
+  await hcGsFetch('/values/'+rng+':clear',{method:'POST',body:'{}'});
+  await hcGsFetch('/values/'+encodeURI(hcGsRange(name)+'!A1')+'?valueInputOption=RAW',{method:'PUT',body:JSON.stringify({values:rows})});
+}
+function hcParse(v){try{return JSON.parse(v)}catch(e){return v}}
+async function hcGsLoad(){
+  const info=await hcGsFetch('?fields=sheets.properties.title');
+  HCGS.titles=new Set(info.sheets.map(s=>s.properties.title));
+  const names=[...HCGS.titles];
+  const collections={},meta={};let hasMeta=false,hasData=false;
+  if(!names.length)return {collections,meta,empty:true};
+  const q=names.map(n=>'ranges='+encodeURIComponent(hcGsRange(n)+'!A:B')).join('&');
+  const b=await hcGsFetch('/values:batchGet?'+q);
+  (b.valueRanges||[]).forEach((vr,i)=>{
+    const n=names[i],vals=vr.values||[],hdr=vals[0]||[];
+    if(n==='meta'){if(hdr[0]==='key')vals.slice(1).forEach(r=>{if(r[0]){meta[r[0]]=hcParse(r[1]);hasMeta=true}});return}
+    if(hdr[0]!=='id')return;
+    const arr=vals.slice(1).filter(r=>r[0]).map(r=>hcParse(r[1])).filter(o=>o&&typeof o==='object');
+    collections[n]=arr;if(arr.length)hasData=true;
+  });
+  return {collections,meta,empty:!hasMeta&&!hasData};
+}
+function hcSnapOf(d){const s={};Object.keys(d).forEach(k=>{if(Array.isArray(d[k]))s[k]=new Map(d[k].filter(x=>x&&x.id!=null).map(x=>[String(x.id),JSON.stringify(x)]))});return s}
+function hcFromServer(res){if(res.empty)return DEF();const d={},def=DEF();Object.keys(def).forEach(k=>{if(Array.isArray(def[k]))d[k]=[]});Object.assign(d,res.collections,res.meta);return d}
+function hcSyncErr(what,e){toast('تعذر الحفظ في Google Sheets ('+what+'): '+((e&&e.message)||e),'err')}
+function hcSaveSoon(ms){clearTimeout(HCSync.timer);HCSync.timer=setTimeout(hcSaveFlush,ms||700)}
+// يكتب الأوراق المتغيّرة فقط، بالحالة الأحدث، والمحاولات الفاشلة تُعاد لاحقًا
+function hcSaveFlush(){
+  const names=[...HCSync.dirty];HCSync.dirty.clear();
+  const meta=HCSync.metaPending;HCSync.metaPending=null;
+  let failed=false;
+  HCSync.queue=HCSync.queue.then(async()=>{
+    for(const n of names){
+      const m=HCSync.snap[n]||new Map();
+      try{await hcGsWrite(n,[['id','data']].concat([...m.entries()]))}
+      catch(e){HCSync.dirty.add(n);failed=true;hcSyncErr(n,e)}
+    }
+    if(meta){
+      try{await hcGsEnsure('meta');await hcGsWrite('meta',[['key','value']].concat(Object.keys(meta).map(k=>[k,JSON.stringify(meta[k])])))}
+      catch(e){HCSync.metaPending=meta;failed=true;hcSyncErr('الإعدادات',e)}
+    }
+    if(failed)hcSaveSoon(5000);
+  });
+}
+const Store={
+  save(d){
+    if(!HCSync.ready)return;
+    const changed=[],nextSnap={};
+    Object.keys(d).forEach(k=>{
+      if(!Array.isArray(d[k]))return;
+      const prev=HCSync.snap[k]||new Map(),now=new Map();let dirty=false;
+      d[k].forEach(x=>{if(!x||x.id==null)return;const id=String(x.id),js=JSON.stringify(x);now.set(id,js);if(prev.get(id)!==js)dirty=true});
+      if(prev.size!==now.size)dirty=true;
+      nextSnap[k]=now;if(dirty)changed.push(k);
+    });
+    const meta={};Object.keys(d).forEach(k=>{if(!Array.isArray(d[k]))meta[k]=d[k]});
+    const mj=JSON.stringify(meta);
+    if(mj!==HCSync.metaJs){HCSync.metaJs=mj;HCSync.metaPending=meta}
+    Object.assign(HCSync.snap,nextSnap);
+    changed.forEach(k=>HCSync.dirty.add(k));
+    if(changed.length||HCSync.metaPending)hcSaveSoon(700);
+  }
+};
+function HCBoot(interactive){
+  const box=document.createElement('div');
+  box.style.cssText='padding:24px;text-align:center;color:#0f766e;font-weight:700';
+  box.textContent='جارٍ الاتصال بـ Google Sheets…';
+  document.body.prepend(box);
+  hcToken(!!interactive).then(()=>hcGsLoad()).then(res=>{
+    const raw=res.empty?DEF():hcFromServer(res);
+    HCSync.snap=res.empty?{}:hcSnapOf(raw);
+    HCSync.metaJs=res.empty?'':JSON.stringify(res.meta);
+    db=bfMig(migrate4(cleanupCityBranchDuplicate(migrate(raw))));
+    HCSync.ready=true;
+    box.remove();
+    save();render();
+    setTimeout(()=>gsCheckForNewResults_&&gsCheckForNewResults_(),1200);
+  }).catch(e=>{
+    box.style.color='#b91c1c';
+    box.textContent='تعذر الاتصال بـ Google Sheets: '+((e&&e.message)||e);
+    const b=document.createElement('button');
+    b.textContent='تسجيل الدخول بحساب Google';
+    b.style.cssText='display:block;margin:14px auto 0;padding:10px 18px;border:0;border-radius:10px;background:#0f766e;color:#fff;font:inherit;cursor:pointer';
+    b.onclick=()=>{box.remove();HCBoot(true)};
+    box.appendChild(b);
+  });
+}
+let db=DEF(),page='dash',F={},cur=null;const save=()=>Store.save(db);
 /* ===== المشتقات: كل شيء يُحسب من السجلات ===== */
 const byD=(a,b)=>(a.date||'').localeCompare(b.date||'');
 const E=()=>db.emps.filter(e=>!e.demo||db.showDemo),emp=id=>emap().get(id);
@@ -2017,9 +2131,9 @@ A('دورات متابعة الفروع',['الفرع','الدورة','التا�
   const _renderGS=render;render=function(){if(page==='gsync'){const old=document.title;document.title='نتائج التثقيف الصحي';$('#side').innerHTML=`<div class="brand">${esc(db.settings.org||'نظام المتابعة')}<small>متابعة الراسبين</small></div>`+NAV.map(([k,i,l])=>`<button class="nv ${page===k||(page==='emp'&&k==='emps')?'on':''}" onclick="go('${k}')"><i>${i}</i>${l}</button>`).join('');$('#main').innerHTML=(db.showDemo?'<div class="demo np">⚠️ وضع العرض التجريبي مفعّل: بيانات demo تدخل في الإحصائيات. أوقفه من الإعدادات.</div>':'')+healthSyncPage()+'<footer>إعداد وتنسيق وتطوير مبارك العواضي</footer>';draw();return}return _renderGS()};
 })();
 
-db=bfMig(migrate4(db));
 
 
-if(typeof document!=='undefined'&&document.body){save();render();setTimeout(()=>gsCheckForNewResults_&&gsCheckForNewResults_(),1200)}
+
+if(typeof document!=='undefined'&&document.body){HCBoot()}
 
 </script></body></html>
