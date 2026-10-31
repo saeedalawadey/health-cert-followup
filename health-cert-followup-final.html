@@ -523,7 +523,7 @@ const NAV=[['dash','🏠','لوحة التحكم'],['bfu','📞','متابعة �
 function go(p){if(p==='add')return empForm();if(p==='imp')return importDlg();if(p==='exp')return doExport();if(p==='bak')return backupDlg();page=p;$('#side').classList.remove('open');render();scrollTo(0,0)}
 const openEmp=id=>{cur=id;page='emp';render();scrollTo(0,0)};
 function render(){$('#side').innerHTML=`<div class="brand">${esc(db.settings.org||'نظام المتابعة')}<small>متابعة الراسبين</small></div>`+NAV.map(([k,i,l])=>`<button class="nv ${page===k||(page==='emp'&&k==='emps')?'on':''}" onclick="go('${k}')"><i>${i}</i>${l}</button>`).join('');
-const P={dash,bfu:bfPage,emps:empsPage,emp:profile,branches:branchesPage,batches:batchesPage,batch:batchPage,reports:repPage,set:settingsPage}[page];
+const P={simtrk:()=>simtrkPage(),dash,bfu:bfPage,emps:empsPage,emp:profile,branches:branchesPage,batches:batchesPage,batch:batchPage,reports:repPage,set:settingsPage}[page];
 $('#main').innerHTML=(db.showDemo?'<div class="demo np">⚠️ وضع العرض التجريبي مفعّل: بيانات demo تدخل في الإحصائيات. أوقفه من الإعدادات.</div>':'')+P()+'<footer>إعداد وتنسيق وتطوير مبارك العواضي</footer>';draw()}
 const draw=()=>{if($('#res')&&page==='emps')drawEmps();if($('#res')&&page==='reports')drawRep();if($('#bres')&&page==='bfu')drawBF()};
 /* ===== لوحة التحكم ===== */
@@ -2135,5 +2135,38 @@ A('دورات متابعة الفروع',['الفرع','الدورة','التا�
 
 
 if(typeof document!=='undefined'&&document.body){HCBoot()}
+
+/* ===== متابعة المحاكاة — منصة التدريب (قراءة فقط: لا تدخل الاختبارات الرسمية ولا الداشبورد) ===== */
+const SIMTRK={SHEET_ID:'1uFGhO2SXE01wnhKJ-48IXCjzFhP35PwRXVXe0gmeTO8',data:null,err:'',busy:false};
+const SIMTRK_ST={active:'نشط',completed_ready:'جاهز للاختبار الرسمي',suspended_failures:'موقوف بسبب الرسوب (تحويل للتدريب)'};
+function simtrkObjs(vr){const v=(vr&&vr.values)||[];const hi=v.findIndex(r=>r&&r.some(c=>c!==''));if(hi<0)return[];const h=v[hi];return v.slice(hi+1).filter(r=>r&&r.some(c=>c!=='')).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]??'');return o})}
+async function simtrkLoad(){
+  let tok;try{tok=await hcToken(false)}catch(e){tok=await hcToken(true)}
+  const r=await fetch('https://sheets.googleapis.com/v4/spreadsheets/'+SIMTRK.SHEET_ID+'/values:batchGet?ranges=Attempts!A:R&ranges=Employees!A:R',{headers:{Authorization:'Bearer '+tok}});
+  if(!r.ok)throw new Error(r.status+': '+(await r.text()).slice(0,200));
+  const b=await r.json();
+  const att=simtrkObjs(b.valueRanges[0]),emp=simtrkObjs(b.valueRanges[1]);
+  const byEmp={};
+  att.forEach(a=>{const k=String(a.employee_id).trim();const x=byEmp[k]||(byEmp[k]={n:0,pass:0,fail:0,last:''});x.n++;if(a.result==='pass')x.pass++;if(a.result==='fail')x.fail++;const t=String(a.ended_at||a.started_at||'');if(t>x.last)x.last=t});
+  SIMTRK.data={att:att.length,emp,byEmp,at:new Date().toISOString()};
+  SIMTRK.err='';
+}
+window.simtrkRefresh=async()=>{SIMTRK.busy=true;SIMTRK.err='';try{await simtrkLoad()}catch(e){SIMTRK.err='تعذر التحديث: '+(e.message||e)}finally{SIMTRK.busy=false}render()};
+function simtrkPage(){
+  const d=SIMTRK.data,L=E();
+  const head=`<div class="card"><h2>🧪 متابعة المحاكاة — منصة التدريب</h2><p class="muted">هذه نتائج محاكاة تدريبية فقط، ولا تدخل الاختبارات الرسمية ولا الداشبورد. الحالة الرسمية تبقى من نظام المتابعة.</p><button class="btn p" onclick="simtrkRefresh()">${SIMTRK.busy?'…جاري التحديث':'🔄 تحديث من المنصة'}</button>${SIMTRK.err?`<p class="muted">${esc(SIMTRK.err)}</p>`:''}${d?`<p class="muted">آخر تحديث: ${esc(new Date(d.at).toLocaleString('ar-SA'))}</p>`:'<p class="muted">اضغط «تحديث من المنصة» لعرض البيانات.</p>'}</div>`;
+  if(!d)return head;
+  const platKeys=new Set(d.emp.map(x=>String(x.employee_id).trim()));
+  const followKeys=new Set(L.map(e=>String(e.empNo||'').trim()));
+  const entered=L.filter(e=>platKeys.has(String(e.empNo||'').trim())).length;
+  const platOnly=d.emp.filter(x=>!followKeys.has(String(x.employee_id).trim()));
+  const stat=`<div class="card"><h2>الملخص</h2><div class="grid"><div class="k"><b>${L.length}</b><span>موظفو نظام المتابعة</span></div><div class="k t"><b>${entered}</b><span>دخلوا المنصة</span></div><div class="k a"><b>${L.length-entered}</b><span>لم يدخلوا المنصة</span></div><div class="k r"><b>${platOnly.length}</b><span>في المنصة وغير مسجلين عندنا</span></div></div></div>`;
+  const rowsA=L.map(e=>{const k=String(e.empNo||'').trim(),p=platKeys.has(k)?(d.emp.find(x=>String(x.employee_id).trim()===k)||{}):null,m=d.byEmp[k]||{n:0,pass:0,fail:0,last:''};const b=bById(e.branchId)||{};return[esc(e.name||'—'),esc(e.empNo||'—'),esc(bn(e)||b.name||'—'),p?'نعم':'لا',p?esc(SIMTRK_ST[p.status]||p.status||'—'):'—',m.n,m.pass,m.fail,m.last?esc(m.last.slice(0,10)):'—']});
+  const tA=`<div class="card"><h2>موظفو نظام المتابعة وحالتهم في المحاكاة</h2>${T_(['الموظف','الرقم الوظيفي','الفرع','دخل المنصة؟','حالة المنصة','المحاولات','الناجحة (محاكاة)','الراسبة (محاكاة)','آخر محاولة'],rowsA)}</div>`;
+  const rowsB=platOnly.map(x=>{const k=String(x.employee_id).trim(),m=d.byEmp[k]||{n:0,pass:0,fail:0,last:''};return[esc(x.employee_name||'—'),esc(k),esc(x.branch_id||'—'),esc(SIMTRK_ST[x.status]||x.status||'—'),m.n,m.pass,m.fail]});
+  const tB=`<div class="card"><h2>دخلوا المنصة ولا يوجدون في نظام المتابعة</h2><p class="muted">لا تُضاف لنظام المتابعة إلا بموافقتك، ولا تُحسب لهم أي نتيجة رسمية.</p>${rowsB.length?T_(['الاسم','الرقم الوظيفي','الفرع (المنصة)','حالة المنصة','المحاولات','الناجحة (محاكاة)','الراسبة (محاكاة)'],rowsB):'<p class="muted">لا يوجد.</p>'}</div>`;
+  return head+stat+tA+tB;
+}
+if(!NAV.some(x=>x[0]==='simtrk'))NAV.splice(NAV.findIndex(x=>x[0]==='reports'),0,['simtrk','🧪','متابعة المحاكاة']);
 
 </script></body></html>
