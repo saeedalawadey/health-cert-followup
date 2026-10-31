@@ -193,7 +193,7 @@ return false};
     if (e.examDate) return 'بانتظار الاختبار الرسمي';
     if ((d.trains || []).some(x => x.empId === e.id)) return 'تم التدريب';
     if ((d.contacts || []).some(x => x.empId === e.id)) return 'تم التواصل';
-    return 'راسب جديد';
+    return 'مسجّل – بانتظار نتيجة الاختبار';
   }
 
   function migrate(src) {
@@ -652,9 +652,9 @@ async function delDemo(){if(await ask('حذف السجلات التجريبية 
 async function wipe(){if(await ask(`سيُحذف <b>كل</b> شيء (${db.emps.length} موظف). خذ نسخة احتياطية أولًا.`,{ok:'حذف الكل',typed:'حذف'})){const s=db.settings;db=DEF();db.settings=s;save();render()}}
 /* ===== v3: متابعة الراسبين — طبقة فوق النظام الحالي ===== */
 var PASS=65,IMPIDS=[],BCUR='',DR={},KINDS=['فرع','مختبر/موقع مساند','موقع آخر'],BST=['جديدة','قيد التدريب','اكتملت'],
-STATUSES=['راسب جديد','بانتظار التدريب','بانتظار المحاكاة','غير جاهز – يحتاج تدخل إضافي','ناجح داخلياً – جاهز للاختبار الرسمي','بانتظار الاختبار الرسمي','بانتظار النتيجة الرسمية','راسب رسمياً – يحتاج تدخل إضافي','ناجح رسمياً – بانتظار التحقق','تم التحقق','مكتمل'],
+STATUSES=['مسجّل – بانتظار نتيجة الاختبار','بانتظار التدريب','بانتظار المحاكاة','غير جاهز – يحتاج تدخل إضافي','ناجح داخلياً – جاهز للاختبار الرسمي','بانتظار الاختبار الرسمي','بانتظار النتيجة الرسمية','راسب رسمياً – يحتاج تدخل إضافي','ناجح رسمياً – بانتظار التحقق','تم التحقق','مكتمل'],
 ORD=['','الأولى','الثانية','الثالثة','الرابعة','الخامسة','السادسة','السابعة','الثامنة','التاسعة','العاشرة'];
-Object.assign(BC,{'راسب جديد':'r','بانتظار التدريب':'a','بانتظار المحاكاة':'a','غير جاهز – يحتاج تدخل إضافي':'r','ناجح داخلياً – جاهز للاختبار الرسمي':'t','بانتظار الاختبار الرسمي':'b','بانتظار النتيجة الرسمية':'b','راسب رسمياً – يحتاج تدخل إضافي':'r','ناجح رسمياً – بانتظار التحقق':'o','ناجح':'gr','راسب':'r','بانتظار النتيجة':'b','غير معروف':'g','ناجح في المحاكاة الداخلية':'t','غير جاهز':'a'});
+Object.assign(BC,{'مسجّل – بانتظار نتيجة الاختبار':'r','بانتظار التدريب':'a','بانتظار المحاكاة':'a','غير جاهز – يحتاج تدخل إضافي':'r','ناجح داخلياً – جاهز للاختبار الرسمي':'t','بانتظار الاختبار الرسمي':'b','بانتظار النتيجة الرسمية':'b','راسب رسمياً – يحتاج تدخل إضافي':'r','ناجح رسمياً – بانتظار التحقق':'o','ناجح':'gr','راسب':'r','بانتظار النتيجة':'b','غير معروف':'g','ناجح في المحاكاة الداخلية':'t','غير جاهز':'a'});
 FIELDS.push(['phone',['الجوال','رقم الجوال','الهاتف','جوال','mobile']]);
 const sq=()=>(sq.n=Math.max(Date.now(),(sq.n||0)+1)),rg=id=>db.regions.find(r=>r.id===id),rb=b=>b?(rg(b.regionId)?rg(b.regionId).name+' · ':'')+b.name:'',smOf=e=>recs('sims',e,byD),
 aft=(r,t)=>!t||((r.seq&&t.seq)?r.seq>t.seq:(r.date||'')>(t.date||'')),dueC=e=>{const c=last(ctOf(e));return !!(c&&c.nextDate&&c.nextDate<=today())};
@@ -680,11 +680,11 @@ if(pend&&aft(pend,dec))return'بانتظار النتيجة الرسمية';
 if(dec&&dec.result==='ناجح')return certOf(e)==='صادرة'?'تم التحقق':'ناجح رسمياً – بانتظار التحقق';
 const A=a=>a.filter(r=>aft(r,dec)),sm=A(smOf(e)),tr=A(trOf(e)),ct=A(ctOf(e)),ls=last(sm),lt=last(tr);
 if(ls&&!(lt&&aft(lt,ls))){if(+ls.pct>=PASS)return e.examDate?(e.examDate<today()?'بانتظار النتيجة الرسمية':'بانتظار الاختبار الرسمي'):'ناجح داخلياً – جاهز للاختبار الرسمي';return'غير جاهز – يحتاج تدخل إضافي'}
-if(lt)return'بانتظار المحاكاة';if(ct.length)return'بانتظار التدريب';return dec&&!dec.imp?'راسب رسمياً – يحتاج تدخل إضافي':'راسب جديد'}
+if(lt)return'بانتظار المحاكاة';if(ct.length)return'بانتظار التدريب';return dec&&!dec.imp?'راسب رسمياً – يحتاج تدخل إضافي':'مسجّل – بانتظار نتيجة الاختبار'}
 const mk=a=>e=>!e.closed&&a.includes(fs(e)),SS=STATUSES;
 PRED={all:()=>1,open:e=>!e.closed,closed:e=>!!e.closed,done:e=>!!e.closed,today:e=>!e.closed&&fs(e)!==SS[5],contact:e=>!e.closed&&(fs(e)===SS[0]||dueC(e)),train:mk([SS[1]]),sim:mk([SS[2]]),notready:mk([SS[3]]),ready:mk([SS[4]]),sched:mk([SS[5]]),result:mk([SS[6]]),offfail:mk([SS[7]]),extra:mk([SS[3],SS[7]]),verif:mk([SS[8]]),verified:mk([SS[9]])};
 const TILES=[['إجراءات اليوم','today','r'],['يحتاجون تواصل','contact','r'],['يحتاجون تدريب','train','r'],['يحتاجون محاكاة','sim','r'],['يحتاجون تدخلاً إضافياً','extra','r'],['غير جاهزين داخلياً','notready','a'],['جاهزون للاختبار الرسمي','ready','a'],['بانتظار الاختبار الرسمي','sched','b'],['بانتظار النتيجة الرسمية','result','b'],['راسبون رسمياً','offfail','r'],['ناجحون بانتظار التحقق','verif','o'],['تم التحقق – للإغلاق','verified','gr'],['مكتمل','done','g']],LBL=Object.fromEntries(TILES.map(([l,k])=>[k,l]));
-const BH2=['عدد المتابعين','راسب جديد','يحتاج تواصل','يحتاج تدريب','غير جاهز','جاهز للاختبار','بانتظار النتيجة','راسب رسمياً','ناجح رسمياً','بانتظار التحقق','مكتمل'],bStat2=l=>{const r=[l.length,0,0,0,0,0,0,0,0,0,0],S=STATUSES;l.forEach(e=>{const f=fs(e);if(f===S[0])r[1]++;if(f===S[1])r[2]++;if(f===S[2]||f===S[3])r[3]++;if(f===S[6])r[4]++;if(f===S[7])r[5]++;if(f===S[8]||f===S[9])r[6]++;if(f===S[10])r[7]++;if(res(e)==='ناجح')r[8]++;if(f===S[11])r[9]++;if(f===S[13])r[10]++});return r};
+const BH2=['عدد المتابعين','مسجّل – بانتظار نتيجة الاختبار','يحتاج تواصل','يحتاج تدريب','غير جاهز','جاهز للاختبار','بانتظار النتيجة','راسب رسمياً','ناجح رسمياً','بانتظار التحقق','مكتمل'],bStat2=l=>{const r=[l.length,0,0,0,0,0,0,0,0,0,0],S=STATUSES;l.forEach(e=>{const f=fs(e);if(f===S[0])r[1]++;if(f===S[1])r[2]++;if(f===S[2]||f===S[3])r[3]++;if(f===S[6])r[4]++;if(f===S[7])r[5]++;if(f===S[8]||f===S[9])r[6]++;if(f===S[10])r[7]++;if(res(e)==='ناجح')r[8]++;if(f===S[11])r[9]++;if(f===S[13])r[10]++});return r};
 function nextBtn(e){const i=e.id,b=(l,f)=>`<button class="btn p" onclick="${f}('${i}')">${l}</button>`;return({[SS[0]]:b('📞 تسجيل تواصل','contactForm'),[SS[1]]:b('🎓 تسجيل تدريب','trainForm'),[SS[2]]:b('🧪 تسجيل محاكاة','simForm'),[SS[3]]:b('🎓 تدخل تدريبي إضافي','trainForm'),[SS[4]]:b('🏫 تحديد موعد الاختبار الرسمي','examForm'),[SS[5]]:b('📝 تسجيل الاختبار الرسمي','testForm'),[SS[6]]:b('📝 تسجيل النتيجة الرسمية','testForm'),[SS[7]]:b('🎓 بدء تدخل تدريبي','trainForm'),[SS[8]]:b('✅ تسجيل التحقق','verifForm'),[SS[9]]:`<button class="btn p" onclick="act('close','${i}')">🔒 إغلاق المتابعة</button>`})[fs(e)]||''}
 /* ---- العمليات ---- */
 const _aE=addEmp,_aT=addTrain,_aC=addContact;
@@ -759,7 +759,7 @@ return{title:RTY[R.type],head,rows,sum}}
    =================================================================== */
 var TTL='راسبو اختبار الشهادة الصحية',SCOPE='نطاق النظام: متابعة الموظفين الذين ثبت رسوبهم في اختبار الشهادة الصحية الرسمي، حتى اجتياز الاختبار والتحقق من صدور الشهادة وإغلاق المتابعة — وليس نظام موارد بشرية عاماً.',DS={},FL={name:'الاسم',iqama:'الهوية/الإقامة',jobTitle:'المسمى الوظيفي',phone:'الجوال'},DL_={'ناجح':'مجتاز','راسب':'غير مجتاز'};
 const dl=x=>DL_[x]||x,nm=e=>e.name||'—';
-STATUSES.length=0;STATUSES.push('راسب جديد','يحتاج تواصل','تم التواصل','بانتظار التدريب','تم التدريب','بانتظار المحاكاة','غير جاهز – يحتاج تدخل إضافي','ناجح داخلياً – جاهز للاختبار الرسمي','بانتظار الاختبار الرسمي','بانتظار النتيجة الرسمية','راسب رسمياً – يحتاج تدخل إضافي','ناجح رسمياً – بانتظار التحقق','تم التحقق','مكتمل');
+STATUSES.length=0;STATUSES.push('مسجّل – بانتظار نتيجة الاختبار','يحتاج تواصل','تم التواصل','بانتظار التدريب','تم التدريب','بانتظار المحاكاة','غير جاهز – يحتاج تدخل إضافي','ناجح داخلياً – جاهز للاختبار الرسمي','بانتظار الاختبار الرسمي','بانتظار النتيجة الرسمية','راسب رسمياً – يحتاج تدخل إضافي','ناجح رسمياً – بانتظار التحقق','تم التحقق','مكتمل');
 Object.assign(BC,{'يحتاج تواصل':'r','بانتظار التدريب':'a','تم التدريب':'t'});
 function nEmp(v){return String(v==null?'':v).trim().replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/\s+/g,'').replace(/\.0+$/,'')}
 /* ---- فهارس سريعة: الفرع + الرقم الوظيفي ---- */
@@ -839,9 +839,9 @@ if(ct.length){const c=last(ct);if(c.outcome==='لم يرد'||(c.nextDate&&c.next
 if(dec&&!dec.imp)return S[10];
 return(e.recruitedAt||'')>=iso(Date.now()-2*864e5)?S[0]:S[1]};
 const inS=(e,...a)=>!e.closed&&a.includes(fs(e));
-PRED={all:()=>1,open:e=>!e.closed,closed:e=>!!e.closed,done:e=>!!e.closed,new:e=>inS(e,STATUSES[0]),contact:e=>inS(e,STATUSES[0],STATUSES[1]),train:e=>inS(e,STATUSES[2],STATUSES[3]),sim:e=>inS(e,STATUSES[4],STATUSES[5]),notready:e=>inS(e,STATUSES[6]),ready:e=>inS(e,STATUSES[7]),sched:e=>inS(e,STATUSES[8]),result:e=>inS(e,STATUSES[9]),offfail:e=>inS(e,STATUSES[10]),extra:e=>inS(e,STATUSES[6],STATUSES[10]),verif:e=>inS(e,STATUSES[11]),verified:e=>inS(e,STATUSES[12]),noemp:e=>!nEmp(e.empNo),dupid:e=>DUP().has(e.id),cyc3:e=>!e.closed&&failsInCycle(e)>=3,today:e=>!e.closed&&(![STATUSES[8],STATUSES[9]].includes(fs(e))||!!(e.examDate&&e.examDate<today()))};
+PRED={all:()=>1,open:e=>!e.closed,closed:e=>!!e.closed,done:e=>!!e.closed,new:e=>inS(e,STATUSES[0]),contact:e=>inS(e,STATUSES[0],STATUSES[1]),train:e=>inS(e,STATUSES[2],STATUSES[3]),sim:e=>inS(e,STATUSES[4],STATUSES[5]),notready:e=>inS(e,STATUSES[6]),ready:e=>inS(e,STATUSES[7]),sched:e=>inS(e,STATUSES[8]),result:e=>inS(e,STATUSES[9]),offfail:e=>inS(e,STATUSES[10]),extra:e=>inS(e,STATUSES[6],STATUSES[10]),verif:e=>inS(e,STATUSES[11]),verified:e=>inS(e,STATUSES[12]),noemp:e=>!nEmp(e.empNo),dupid:e=>DUP().has(e.id),cyc3:e=>!e.closed&&failsInCycle(e)>=3,today:e=>!e.closed&&(dueC(e)||!!(e.examDate&&e.examDate<=today())||fs(e)===STATUSES[7]||failsInCycle(e)>=3)};
 TILES.length=0;TILES.push(['إجراءات اليوم','today','r'],['يحتاجون تواصل','contact','r'],['يحتاجون تدريب','train','r'],['يحتاجون محاكاة','sim','r'],['راسبون رسمياً — تدخل إضافي','offfail','r'],['غير جاهزين داخلياً','notready','a'],['جاهزون للاختبار الرسمي','ready','a'],['بانتظار الاختبار الرسمي','sched','b'],['بانتظار النتيجة الرسمية','result','b'],['ناجحون بانتظار التحقق','verif','o'],['تم التحقق – للإغلاق','verified','gr'],['مكتمل','done','g'],['3 محاولات غير مجتازة','cyc3','r'],['يحتاج استكمال الرقم الوظيفي','noemp','a']);
-Object.keys(LBL).forEach(k=>delete LBL[k]);TILES.forEach(([l,k])=>LBL[k]=l);LBL.dupid='رقم وظيفي مكرر داخل الفرع';LBL.new='راسب جديد';
+Object.keys(LBL).forEach(k=>delete LBL[k]);TILES.forEach(([l,k])=>LBL[k]=l);LBL.dupid='رقم وظيفي مكرر داخل الفرع';LBL.new='مسجّل – بانتظار نتيجة الاختبار';
 function nextBtn(e){const i=e.id,S=STATUSES,b=(l,f)=>`<button class="btn p" onclick="${f}('${i}')">${l}</button>`;return({[S[0]]:b('📞 تسجيل تواصل','contactForm'),[S[1]]:b('📞 تسجيل تواصل','contactForm'),[S[2]]:b('🎓 تسجيل تدريب','trainForm'),[S[3]]:b('🎓 تسجيل تدريب','trainForm'),[S[4]]:b('🧪 تسجيل محاكاة داخلية','simForm'),[S[5]]:b('🧪 تسجيل محاكاة داخلية','simForm'),[S[6]]:b('🎓 تدخل تدريبي إضافي','trainForm'),[S[7]]:b('🏫 تحديد موعد الاختبار الرسمي','examForm'),[S[8]]:b('📝 تسجيل الاختبار الرسمي','testForm'),[S[9]]:b('📝 تسجيل النتيجة الرسمية','testForm'),[S[10]]:b('🎓 بدء تدخل تدريبي إضافي','trainForm'),[S[11]]:b('✅ تسجيل التحقق من الشهادة','verifForm'),[S[12]]:`<button class="btn p" onclick="act('close','${i}')">🔒 إغلاق المتابعة</button>`})[fs(e)]||''}
 
 /* ---- الاستيراد: معاينة ← تأكيد ← دفعة تلقائية ---- */
@@ -2105,7 +2105,7 @@ A('دورات متابعة الفروع',['الفرع','الدورة','التا�
   }
   function gsMetrics(){const L=E(),latest=e=>last(smOf(e));return {total:L.length,tested:L.filter(e=>smOf(e).length).length,untested:L.filter(e=>!smOf(e).length).length,simPass:L.filter(e=>{const s=latest(e);return s&&+s.pct>=PASS}).length,simFail:L.filter(e=>{const s=latest(e);return s&&+s.pct<PASS}).length,need:L.filter(e=>fs(e)==='غير جاهز – يحتاج تدخل إضافي').length,ready:L.filter(e=>fs(e)==='ناجح داخلياً – جاهز للاختبار الرسمي').length}}
   function gsDashCard(){const m=gsMetrics(),s=GS(),a=db.healthEducationSync.lastAutoCheck||{};return `<div class="card"><h2>🧪 نتائج محاكاة التثقيف الصحي</h2><div class="grid"><div class="k"><b>${m.total}</b><span>إجمالي الموظفين</span></div><div class="k"><b>${m.tested}</b><span>المختبرين</span></div><div class="k"><b>${m.untested}</b><span>غير المختبرين</span></div><div class="k t"><b>${m.simPass}</b><span>ناجحون في المحاكاة</span></div><div class="k a"><b>${m.simFail}</b><span>غير مجتازين المحاكاة</span></div><div class="k r"><b>${m.need}</b><span>يحتاجون تدخلًا إضافيًا</span></div><div class="k t"><b>${m.ready}</b><span>جاهزون للاختبار الرسمي</span></div></div><p class="muted">حالة المصدر: ${esc(s.connectionStatus||'غير متصل')} — آخر فحص: ${esc(s.lastCheck||'لم يتم بعد')} — نتائج تحتاج مراجعة: ${s.newResultsCount||0}</p><div class="bar"><button class="btn p" onclick="go('gsync')">🔄 نتائج التثقيف الصحي</button><button class="btn" onclick="gsCheckForNewResults_().then(()=>{render();toast('تم فحص نتائج التثقيف الصحي')})">فحص الآن</button></div></div>`}
-  const _dashGS=dash;dash=function(){return _dashGS()+gsDashCard()};
+  const _dashGS=dash;dash=function(){return _dashGS()+simtrkDashCard()+feeCard()};
   const _profileGS=profile;profile=function(){let h=_profileGS();const e=emp(cur);if(!e)return h;const sm=smOf(e).slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));return h+`<div class="card"><h2>نتائج محاكاة التثقيف الصحي</h2>${sm.length?T_(['المحاولة','التاريخ','النموذج','النسبة','النتيجة','المصدر','الصحيحة','الخاطئة','بلا إجابة','المدة','اللغة'],sm.map(s=>[ORD[s.n]||s.n,s.date,esc(s.model)||'—',s.pct+'%',badge(s.result),esc(s.source)||'—',s.correct??'—',s.incorrect??'—',s.unanswered??'—',s.duration!=null?s.duration+' دقيقة':'—',esc(s.language)||'—'])):'<p class="muted">لا توجد محاولات محاكاة تثقيف صحي.</p>'}</div>`}
   const _repPageGS=repPage;
   repPage=function(){if(R.type==='gsim')return gsReportPage();return _repPageGS()};
@@ -2136,37 +2136,72 @@ A('دورات متابعة الفروع',['الفرع','الدورة','التا�
 
 if(typeof document!=='undefined'&&document.body){HCBoot()}
 
-/* ===== متابعة المحاكاة — منصة التدريب (قراءة فقط: لا تدخل الاختبارات الرسمية ولا الداشبورد) ===== */
+/* ===== متابعة المحاكاة — منصة التدريب (قراءة فقط: لا تدخل الاختبارات الرسمية ولا تغيّر الحالة الرسمية) ===== */
 const SIMTRK={SHEET_ID:'1uFGhO2SXE01wnhKJ-48IXCjzFhP35PwRXVXe0gmeTO8',data:null,err:'',busy:false};
 const SIMTRK_ST={active:'نشط',completed_ready:'جاهز للاختبار الرسمي',suspended_failures:'موقوف بسبب الرسوب (تحويل للتدريب)'};
+const SIMTRK_MODS=[['M1','الوحدة الأولى (M1)'],['M2','الوحدة الثانية (M2)'],['M3','الوحدة الثالثة (M3)'],['M4','الوحدة الرابعة (M4)'],['TP','أسئلة الدروس (TP)']];
+const SIMTRK_PASS=65;
 function simtrkObjs(vr){const v=(vr&&vr.values)||[];const hi=v.findIndex(r=>r&&r.some(c=>c!==''));if(hi<0)return[];const h=v[hi];return v.slice(hi+1).filter(r=>r&&r.some(c=>c!=='')).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]??'');return o})}
+const simtrkKey=e=>String((e&&e.empNo)||'').trim();
 async function simtrkLoad(){
   let tok;try{tok=await hcToken(false)}catch(e){tok=await hcToken(true)}
-  const r=await fetch('https://sheets.googleapis.com/v4/spreadsheets/'+SIMTRK.SHEET_ID+'/values:batchGet?ranges=Attempts!A:R&ranges=Employees!A:R',{headers:{Authorization:'Bearer '+tok}});
+  const r=await fetch('https://sheets.googleapis.com/v4/spreadsheets/'+SIMTRK.SHEET_ID+'/values:batchGet?ranges=Attempts!A:R&ranges=Employees!A:R&ranges=AttemptQuestions!A:L',{headers:{Authorization:'Bearer '+tok}});
   if(!r.ok)throw new Error(r.status+': '+(await r.text()).slice(0,200));
   const b=await r.json();
-  const att=simtrkObjs(b.valueRanges[0]),emp=simtrkObjs(b.valueRanges[1]);
+  const att=simtrkObjs(b.valueRanges[0]),emp=simtrkObjs(b.valueRanges[1]),aq=simtrkObjs(b.valueRanges[2]);
   const byEmp={};
   att.forEach(a=>{const k=String(a.employee_id).trim();const x=byEmp[k]||(byEmp[k]={n:0,pass:0,fail:0,last:''});x.n++;if(a.result==='pass')x.pass++;if(a.result==='fail')x.fail++;const t=String(a.ended_at||a.started_at||'');if(t>x.last)x.last=t});
-  SIMTRK.data={att:att.length,emp,byEmp,at:new Date().toISOString()};
+  const mod={};SIMTRK_MODS.forEach(([m])=>mod[m]={n:0,c:0});
+  let unans=0;
+  aq.forEach(q=>{if(q.final_status==='unanswered')unans++;const m=String(q.qid||'').split('-')[0];if(!mod[m])return;const ic=String(q.is_correct).toUpperCase();if(ic==='TRUE'||ic==='FALSE'){mod[m].n++;if(ic==='TRUE')mod[m].c++}});
+  const timeouts=att.filter(a=>/timeout/i.test(String(a.end_reason||''))).length;
+  SIMTRK.data={att:att.length,emp,byEmp,mod,aqTotal:aq.length,unansPct:aq.length?Math.round(1000*unans/aq.length)/10:0,timeouts,at:new Date().toISOString()};
   SIMTRK.err='';
 }
 window.simtrkRefresh=async()=>{SIMTRK.busy=true;SIMTRK.err='';try{await simtrkLoad()}catch(e){SIMTRK.err='تعذر التحديث: '+(e.message||e)}finally{SIMTRK.busy=false}render()};
+function simtrkStats(){
+  const d=SIMTRK.data;if(!d)return null;
+  const L=E(),pmap=new Map(d.emp.map(x=>[String(x.employee_id).trim(),x])),DAY=864e5,now=Date.now();
+  const matched=L.filter(e=>pmap.has(simtrkKey(e)));
+  const ready=matched.filter(e=>pmap.get(simtrkKey(e)).status==='completed_ready').length;
+  const mustTrain=matched.filter(e=>pmap.get(simtrkKey(e)).status==='suspended_failures').length;
+  const idle=matched.filter(e=>{if(pmap.get(simtrkKey(e)).status!=='active')return false;const m=d.byEmp[simtrkKey(e)];const t=m&&m.last?Date.parse(m.last):0;return !t||now-t>14*DAY}).length;
+  const mismatch=matched.filter(e=>pmap.get(simtrkKey(e)).status==='completed_ready'&&[STATUSES[0],STATUSES[1],STATUSES[2],STATUSES[3]].includes(fs(e))).length;
+  const weak=SIMTRK_MODS.map(([m,l])=>({name:l,pct:d.mod[m].n?Math.round(1000*d.mod[m].c/d.mod[m].n)/10:null})).filter(x=>x.pct!==null).sort((a,b)=>a.pct-b.pct)[0]||null;
+  return {ready,mustTrain,idle,mismatch,weak,unansPct:d.unansPct,timeouts:d.timeouts,at:d.at};
+}
+function simtrkDashCard(){
+  const s=simtrkStats();
+  const head='<div class="card"><h2>🧪 من منصة التدريب (للمتابعة فقط، لا يغيّر الحالة الرسمية)</h2>';
+  if(!s)return head+'<p class="muted">اضغط «تحديث من المنصة» في تبويب «متابعة المحاكاة» لعرض البيانات.</p></div>';
+  return head+`<div class="grid"><div class="k t"><b>${s.ready}</b><span>جاهزون في المنصة (4 نجاحات)</span></div><div class="k r"><b>${s.mustTrain}</b><span>ملزمون بالتدريب بعد الرسوب</span></div><div class="k a"><b>${s.idle}</b><span>بلا نشاط منذ 14 يومًا</span></div><div class="k a"><b>${s.mismatch}</b><span>تعارض: جاهز في المنصة وما زال في المتابعة مرحلة مبكرة</span></div><div class="k b"><b>${s.weak?esc(s.weak.name)+' — '+s.weak.pct+'%':'—'}</b><span>أضعف وحدة (الحد ${SIMTRK_PASS}%)</span></div><div class="k o"><b>${s.unansPct}%</b><span>أسئلة بلا إجابة (ضغط الوقت) · ${s.timeouts} محاولة انتهى وقتها</span></div></div><p class="muted">آخر تحديث: ${esc(new Date(s.at).toLocaleString('ar-SA'))}</p></div>`;
+}
 function simtrkPage(){
   const d=SIMTRK.data,L=E();
-  const head=`<div class="card"><h2>🧪 متابعة المحاكاة — منصة التدريب</h2><p class="muted">هذه نتائج محاكاة تدريبية فقط، ولا تدخل الاختبارات الرسمية ولا الداشبورد. الحالة الرسمية تبقى من نظام المتابعة.</p><button class="btn p" onclick="simtrkRefresh()">${SIMTRK.busy?'…جاري التحديث':'🔄 تحديث من المنصة'}</button>${SIMTRK.err?`<p class="muted">${esc(SIMTRK.err)}</p>`:''}${d?`<p class="muted">آخر تحديث: ${esc(new Date(d.at).toLocaleString('ar-SA'))}</p>`:'<p class="muted">اضغط «تحديث من المنصة» لعرض البيانات.</p>'}</div>`;
+  const head=`<div class="card"><h2>🧪 متابعة المحاكاة — منصة التدريب</h2><p class="muted">هذه نتائج محاكاة تدريبية فقط، ولا تدخل الاختبارات الرسمية ولا تغيّر حالة الموظف الرسمية. الحالة الرسمية تبقى من نظام المتابعة.</p><button class="btn p" onclick="simtrkRefresh()">${SIMTRK.busy?'…جاري التحديث':'🔄 تحديث من المنصة'}</button>${SIMTRK.err?`<p class="muted">${esc(SIMTRK.err)}</p>`:''}${d?`<p class="muted">آخر تحديث: ${esc(new Date(d.at).toLocaleString('ar-SA'))}</p>`:'<p class="muted">اضغط «تحديث من المنصة» لعرض البيانات.</p>'}</div>`;
   if(!d)return head;
   const platKeys=new Set(d.emp.map(x=>String(x.employee_id).trim()));
-  const followKeys=new Set(L.map(e=>String(e.empNo||'').trim()));
-  const entered=L.filter(e=>platKeys.has(String(e.empNo||'').trim())).length;
+  const followKeys=new Set(L.map(simtrkKey));
+  const entered=L.filter(e=>platKeys.has(simtrkKey(e))).length;
   const platOnly=d.emp.filter(x=>!followKeys.has(String(x.employee_id).trim()));
   const stat=`<div class="card"><h2>الملخص</h2><div class="grid"><div class="k"><b>${L.length}</b><span>موظفو نظام المتابعة</span></div><div class="k t"><b>${entered}</b><span>دخلوا المنصة</span></div><div class="k a"><b>${L.length-entered}</b><span>لم يدخلوا المنصة</span></div><div class="k r"><b>${platOnly.length}</b><span>في المنصة وغير مسجلين عندنا</span></div></div></div>`;
-  const rowsA=L.map(e=>{const k=String(e.empNo||'').trim(),p=platKeys.has(k)?(d.emp.find(x=>String(x.employee_id).trim()===k)||{}):null,m=d.byEmp[k]||{n:0,pass:0,fail:0,last:''};const b=bById(e.branchId)||{};return[esc(e.name||'—'),esc(e.empNo||'—'),esc(bn(e)||b.name||'—'),p?'نعم':'لا',p?esc(SIMTRK_ST[p.status]||p.status||'—'):'—',m.n,m.pass,m.fail,m.last?esc(m.last.slice(0,10)):'—']});
+  const modRows=SIMTRK_MODS.map(([m,l])=>{const x=d.mod[m];const pct=x.n?Math.round(1000*x.c/x.n)/10:null;return[esc(l),x.n,pct===null?'—':pct+'%',pct===null?'—':(pct>=SIMTRK_PASS?'✅ فوق الحد':'⚠️ تحت الحد')]});
+  const tM=`<div class="card"><h2>نسبة الإجابات الصحيحة حسب الوحدة</h2><p class="muted">تُحسب من الأسئلة المجابة فقط. الحد ${SIMTRK_PASS}%. عدد الأسئلة: ${d.aqTotal}، بلا إجابة: ${d.unansPct}%، محاولات انتهى وقتها: ${d.timeouts}.</p>${T_(['الوحدة','عدد الأسئلة المجابة','نسبة الصحيح','الحالة'],modRows)}</div>`;
+  const rowsA=L.map(e=>{const k=simtrkKey(e),p=platKeys.has(k)?(d.emp.find(x=>String(x.employee_id).trim()===k)||{}):null,m=d.byEmp[k]||{n:0,pass:0,fail:0,last:''};const b=bById(e.branchId)||{};return[esc(e.name||'—'),esc(e.empNo||'—'),esc(bn(e)||b.name||'—'),p?'نعم':'لا',p?esc(SIMTRK_ST[p.status]||p.status||'—'):'—',m.n,m.pass,m.fail,m.last?esc(m.last.slice(0,10)):'—']});
   const tA=`<div class="card"><h2>موظفو نظام المتابعة وحالتهم في المحاكاة</h2>${T_(['الموظف','الرقم الوظيفي','الفرع','دخل المنصة؟','حالة المنصة','المحاولات','الناجحة (محاكاة)','الراسبة (محاكاة)','آخر محاولة'],rowsA)}</div>`;
   const rowsB=platOnly.map(x=>{const k=String(x.employee_id).trim(),m=d.byEmp[k]||{n:0,pass:0,fail:0,last:''};return[esc(x.employee_name||'—'),esc(k),esc(x.branch_id||'—'),esc(SIMTRK_ST[x.status]||x.status||'—'),m.n,m.pass,m.fail]});
   const tB=`<div class="card"><h2>دخلوا المنصة ولا يوجدون في نظام المتابعة</h2><p class="muted">لا تُضاف لنظام المتابعة إلا بموافقتك، ولا تُحسب لهم أي نتيجة رسمية.</p>${rowsB.length?T_(['الاسم','الرقم الوظيفي','الفرع (المنصة)','حالة المنصة','المحاولات','الناجحة (محاكاة)','الراسبة (محاكاة)'],rowsB):'<p class="muted">لا يوجد.</p>'}</div>`;
-  return head+stat+tA+tB;
+  return head+stat+tM+tA+tB;
 }
+function feeCard(){const L=E().filter(e=>!e.closed),P=SIMTRK.data?new Map(SIMTRK.data.emp.map(x=>[String(x.employee_id).trim(),x.status])):null;const ready=e=>!!P&&P.get(simtrkKey(e))==='completed_ready';
+const paid=L.filter(e=>failsInCycle(e)>=2),risk=paid.filter(e=>!ready(e)),safe=paid.filter(ready);const amt=e=>failsInCycle(e)>=3?1132:185;const sum=a=>a.reduce((t,e)=>t+amt(e),0);
+return `<div class="card"><h2>💰 الرسوم المدفوعة: حجز آمن أو مبلغ معرّض للهدر</h2><p class="muted">التدريب والمحاكاة في المنصة مجانية، لكن كل محاولة رسمية مدفوعة. الأرقام هنا للموظفين الذين وصلوا رسوبين أو أكثر.</p><div class="grid"><div class="k a"><b>${risk.length}</b><span>غير جاهزين في المنصة، المبلغ المعرّض للهدر: ${sum(risk).toLocaleString('ar-SA')} ريال</span></div><div class="k t"><b>${safe.length}</b><span>جاهزون في المنصة، الحجز آمن: ${sum(safe).toLocaleString('ar-SA')} ريال</span></div><div class="k"><b>${L.filter(e=>failsInCycle(e)===1).length}</b><span>إعادة مجانية (رسوب واحد)</span></div></div>${P?'':'<p class="muted">حدّث بيانات المنصة لتظهر الجاهزية.</p>'}</div>`}
+const _pfCyc=profile;profile=()=>{let h=_pfCyc();const e=emp(cur);if(!e)return h;const n=failsInCycle(e);
+const nxt=n===0?'المحاولة الأولى ضمن الدورة (رسوم الدورة 1132 ريال)':n===1?'الإعادة الأولى: مجانية':n===2?'الإعادة الثانية: رسوم الاختبار 185 ريال':'رسب 3 مرات: رسوم الدورة كاملة 1132 ريال، ويعود للدراسة وتبدأ دورة جديدة';
+const gate=(n>=2&&!(SIMTRK.data&&(SIMTRK.data.emp.find(x=>String(x.employee_id).trim()===simtrkKey(e))||{}).status==='completed_ready'))?'<p class="w" style="color:#b91c1c">⚠️ قبل حجز محاولة مدفوعة: تحقق من جاهزية الموظف في المنصة (4 نجاحات).</p>':'';
+const k=simtrkKey(e),p=SIMTRK.data?SIMTRK.data.emp.find(x=>String(x.employee_id).trim()===k):null,m=SIMTRK.data?SIMTRK.data.byEmp[k]:null;
+const pb=`<div class="card"><h2>المسار والمنصة</h2><p><b>${esc(nxt)}</b></p>${gate}${p?`<p>الحالة في المنصة: ${esc(SIMTRK_ST[p.status]||p.status)} · المحاولات: ${m?m.n:0} (ناجحة ${m?m.pass:0} · راسبة ${m?m.fail:0})</p>`:'<p class="muted">غير موجود في المنصة، أو لم يتم تحديث بيانات المنصة بعد.</p>'}</div>`;
+return h.replace('<div class="card">',pb+'<div class="card">')};
 if(!NAV.some(x=>x[0]==='simtrk'))NAV.splice(NAV.findIndex(x=>x[0]==='reports'),0,['simtrk','🧪','متابعة المحاكاة']);
 
 </script></body></html>
