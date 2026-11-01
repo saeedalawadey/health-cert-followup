@@ -792,7 +792,7 @@ if(!e.importBatchId&&(e.batchId||bOf[e.id]))e.importBatchId=e.batchId||bOf[e.id]
 d.v=4;IDX=null;EMP_=null;DUPC=null;RI=null;return d}
 const _m3=migrate;migrate=d=>migrate4(_m3(d));
 /* ---- ترحيل الفروع الرسمي من ملف Excel المعتمد (v5) ---- */
-const OFFICIAL_BRANCHES_V5=[{"region":"المنطقة الأولى","name":"فرع بريدة","manager":"عادل إسماعيل عبدالعليم","managerPhone":"533068888","city":"القصيم"},{"region":"المنطقة الأولى","name":"فرع الندوة","manager":"عبدالله علي ناجي الطويل","managerPhone":"500197721","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع السلي","manager":"صادق علي شرف","managerPhone":"550181749","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع النسيم","manager":"عادل عبده مهدي الثوري","managerPhone":"503870643","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع بريدة - حي النسيم","manager":"عبدالله سعيد علي الكلالي","managerPhone":"546167455","city":"القصيم"},{"region":"المنطقة الأولى","name":"فرع الروضة","manager":"حسين يحى محمد جرمان","managerPhone":"509020471","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع عنيزة","manager":"صادق المجيدي","managerPhone":"506628123","city":"القصيم"},{"region":"المنطقة الأولى","name":"فرع الروابي","manager":"وليد نعمان صالح راجح","managerPhone":"555093446","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع النهضة","manager":"خالد مسعود محمد مجلي","managerPhone":"551115842","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع الجزيرة","manager":"عبده محمد المسوري","managerPhone":"556126050","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع محطة هلا طريق القصيم","manager":"صلاح نعمان علي أحمد","managerPhone":"509233012","city":"القصيم"},{"region":"المنطقة الثانية","name":"فرع العقيق","manager":"مسعود عبده خميس محمد","managerPhone":"503313110","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع المصيف","manager":"بسام احمد يحي الأبيض","managerPhone":"551781020","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع العارض","manager":"منصور الحميدي","managerPhone":"533655544","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع طريق الثمامة","manager":"وليد قاسم عبده نصر","managerPhone":"538399864","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع خميس مشيط - حي المعمورة","manager":"بشير فيصل العزعزي","managerPhone":"530639763","city":"خميس مشيط"},{"region":"المنطقة الثانية","name":"فرع النرجس","manager":"عبدالعليم احمد الفخري","managerPhone":"535700799","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع اليرموك","manager":"عبدالله احمد المغربي","managerPhone":"537299995","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع الياسمين","manager":"احمد محمد الحميدي","managerPhone":"557064418","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع نجران","manager":"يحي عبده خميس محمد","managerPhone":"558957527","city":"نجران"},{"region":"المنطقة الثانية","name":"فرع محطة هلا الرياض","manager":"محمد عبدالله عيدروس","managerPhone":"558886321","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع البديعة","manager":"مثنى عبده سعيد قاسم","managerPhone":"533336450","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع الخرج - النزهة","manager":"ردفان عبده يحي الشعيبي","managerPhone":"566013572","city":"الخرج"},{"region":"المنطقة الثالثة","name":"فرع ديراب","manager":"محمد عبدالله علي النوعه","managerPhone":"534855255","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع الشفا","manager":"فهد احمد علي","managerPhone":"556125060","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع السويدي","manager":"صادق صالح ناجي مثنى","managerPhone":"555334752","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع العزيزية","manager":"نضال علي حمود عبدالله","managerPhone":"535555481","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع الخرج","manager":"محمد صالح المسلماني","managerPhone":"550794494","city":"الخرج"},{"region":"المنطقة الثالثة","name":"فرع ضاحية لبن","manager":"بسام حسين","managerPhone":"503497437","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع الدار البيضاء","manager":"عبدالله سعيد النعيمي","managerPhone":"557481410","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع صناعية الرياض","manager":"عارف المخلافي","managerPhone":"555328632","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع حي نمار","manager":"سيف دبوان","managerPhone":"539971363","city":"الرياض"},{"region":"المنطقة الشرقية","name":"فرع الخبر","manager":"عبدالله محمد علي حسن","managerPhone":"535223357","city":"الخبر"},{"region":"المنطقة الشرقية","name":"فرع الدمام الفيصلية","manager":"عبدالرحمن عبدالله البراق","managerPhone":"504590863","city":"الدمام"},{"region":"المنطقة الشرقية","name":"فرع الدمام الشاطئ","manager":"محمد عثمان ناجي يوسف","managerPhone":"555356968","city":"الدمام"},{"region":"المنطقة الشرقية","name":"فرع الاحساء","manager":"عبدالسلام محمد","managerPhone":"550161100","city":"الاحساء"},{"region":"المنطقة الشرقية","name":"فرع حفر الباطن - حي الفيصلية","manager":"عادل عبدالله الفتاحي","managerPhone":"553617684","city":"حفلر الباطن"},{"region":"المنطقة الشرقية","name":"فرع الهملة","manager":"بلال الحميدي","managerPhone":"33800097","city":"البحرين"},{"region":"المنطقة الشرقية","name":"فرع توبلي","manager":"عبدالفتاح محمدالعواضي","managerPhone":"38000789","city":"البحرين"},{"region":"المنطقة الشرقية","name":"فرع الاحساء - حي المزروع","manager":"فواز علي محمد المقدشي","managerPhone":"509439915","city":"الاحساء"},{"region":"المنطقة الشرقية","name":"فرع محطة هلا الدمام","manager":"عبدالسلام سعيد السورقي","managerPhone":"557481225","city":"الدمام"},{"region":"المنطقة الشرقية","name":"فرع المحرق","manager":"محمد غالب الشاعري","managerPhone":"33671401","city":"البحرين"},{"region":"المنطقة الغربية","name":"فرع الطائف","manager":"عبدالواحد حميد الفقية","managerPhone":"542672059","city":"الطايف"},{"region":"المنطقة الغربية","name":"فرع المدينة المنورة","manager":"فيصل محمد مرشد","managerPhone":"554670969","city":"المدينة المنورة"},{"region":"المنطقة الغربية","name":"فرع جدة الحمدانية","manager":"عيسى عبده حسن قاسم","managerPhone":"554865553","city":"جدة"},{"region":"المنطقة الغربية","name":"فرع مكة - العزيزية","manager":"فادي عبدالله علي سنان","managerPhone":"535885225","city":"مكة"},{"region":"المنطقة الغربية","name":"فرع جدة -البوادي","manager":"عبدالرحمن محمد العكشي","managerPhone":"554640945","city":"جدة"},{"region":"المنطقة الغربية","name":"فرع المدينة المنورة - حي السلام","manager":"طارق محمد عبدالله","managerPhone":"567763546","city":"المدينة المنورة"},{"region":"المنطقة الغربية","name":"فرع جدة الصفا","manager":"عادل علي احمد الحزمي","managerPhone":"537900240","city":"جدة"},{"region":"المنطقة الغربية","name":"فرع جدة السنابل","manager":"عبدالباري حاميم","managerPhone":"558891959","city":"جدة"},{"region":"المنطقة الغربية","name":"فرع مكة - جبل عمر","manager":"طه عبدالهادي الحميدي","managerPhone":"507661233","city":"مكة"},{"region":"المنطقة الشمالية","name":"فرع عرعر","manager":"ماجد عبدالرزاق قايد","managerPhone":"563262420","city":"عرعر"},{"region":"المنطقة الشمالية","name":"فرع تبوك - حي الدرة","manager":"محمد احمد العواضي","managerPhone":"563326961","city":"تبوك"},{"region":"المنطقة الشمالية","name":"فرع طبرجل","manager":"عرفج حسن سبتان","managerPhone":"560300664","city":"طبرجل"},{"region":"المنطقة الشمالية","name":"فرع حائل","manager":"جميل حميد علي","managerPhone":"564370114","city":"حائل"},{"region":"المنطقة الشمالية","name":"فرع سكاكا","manager":"عبدالعليم نصر","managerPhone":"547760085","city":"سكاكا"},{"region":"المنطقة الشمالية","name":"فرع دومة الجندل","manager":"عبدالباري الشرفي","managerPhone":"560227753","city":"دومة الجندل"}];
+const OFFICIAL_BRANCHES_V5=[{"region":"المنطقة الأولى","name":"فرع بريدة","manager":"عادل إسماعيل عبدالعليم","managerPhone":"","city":"القصيم"},{"region":"المنطقة الأولى","name":"فرع الندوة","manager":"عبدالله علي ناجي الطويل","managerPhone":"","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع السلي","manager":"صادق علي شرف","managerPhone":"","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع النسيم","manager":"عادل عبده مهدي الثوري","managerPhone":"","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع بريدة - حي النسيم","manager":"عبدالله سعيد علي الكلالي","managerPhone":"","city":"القصيم"},{"region":"المنطقة الأولى","name":"فرع الروضة","manager":"حسين يحى محمد جرمان","managerPhone":"","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع عنيزة","manager":"صادق المجيدي","managerPhone":"","city":"القصيم"},{"region":"المنطقة الأولى","name":"فرع الروابي","manager":"وليد نعمان صالح راجح","managerPhone":"","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع النهضة","manager":"خالد مسعود محمد مجلي","managerPhone":"","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع الجزيرة","manager":"عبده محمد المسوري","managerPhone":"","city":"الرياض"},{"region":"المنطقة الأولى","name":"فرع محطة هلا طريق القصيم","manager":"صلاح نعمان علي أحمد","managerPhone":"","city":"القصيم"},{"region":"المنطقة الثانية","name":"فرع العقيق","manager":"مسعود عبده خميس محمد","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع المصيف","manager":"بسام احمد يحي الأبيض","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع العارض","manager":"منصور الحميدي","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع طريق الثمامة","manager":"وليد قاسم عبده نصر","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع خميس مشيط - حي المعمورة","manager":"بشير فيصل العزعزي","managerPhone":"","city":"خميس مشيط"},{"region":"المنطقة الثانية","name":"فرع النرجس","manager":"عبدالعليم احمد الفخري","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع اليرموك","manager":"عبدالله احمد المغربي","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع الياسمين","manager":"احمد محمد الحميدي","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثانية","name":"فرع نجران","manager":"يحي عبده خميس محمد","managerPhone":"","city":"نجران"},{"region":"المنطقة الثانية","name":"فرع محطة هلا الرياض","manager":"محمد عبدالله عيدروس","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع البديعة","manager":"مثنى عبده سعيد قاسم","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع الخرج - النزهة","manager":"ردفان عبده يحي الشعيبي","managerPhone":"","city":"الخرج"},{"region":"المنطقة الثالثة","name":"فرع ديراب","manager":"محمد عبدالله علي النوعه","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع الشفا","manager":"فهد احمد علي","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع السويدي","manager":"صادق صالح ناجي مثنى","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع العزيزية","manager":"نضال علي حمود عبدالله","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع الخرج","manager":"محمد صالح المسلماني","managerPhone":"","city":"الخرج"},{"region":"المنطقة الثالثة","name":"فرع ضاحية لبن","manager":"بسام حسين","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع الدار البيضاء","manager":"عبدالله سعيد النعيمي","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع صناعية الرياض","manager":"عارف المخلافي","managerPhone":"","city":"الرياض"},{"region":"المنطقة الثالثة","name":"فرع حي نمار","manager":"سيف دبوان","managerPhone":"","city":"الرياض"},{"region":"المنطقة الشرقية","name":"فرع الخبر","manager":"عبدالله محمد علي حسن","managerPhone":"","city":"الخبر"},{"region":"المنطقة الشرقية","name":"فرع الدمام الفيصلية","manager":"عبدالرحمن عبدالله البراق","managerPhone":"","city":"الدمام"},{"region":"المنطقة الشرقية","name":"فرع الدمام الشاطئ","manager":"محمد عثمان ناجي يوسف","managerPhone":"","city":"الدمام"},{"region":"المنطقة الشرقية","name":"فرع الاحساء","manager":"عبدالسلام محمد","managerPhone":"","city":"الاحساء"},{"region":"المنطقة الشرقية","name":"فرع حفر الباطن - حي الفيصلية","manager":"عادل عبدالله الفتاحي","managerPhone":"","city":"حفلر الباطن"},{"region":"المنطقة الشرقية","name":"فرع الهملة","manager":"بلال الحميدي","managerPhone":"","city":"البحرين"},{"region":"المنطقة الشرقية","name":"فرع توبلي","manager":"عبدالفتاح محمدالعواضي","managerPhone":"","city":"البحرين"},{"region":"المنطقة الشرقية","name":"فرع الاحساء - حي المزروع","manager":"فواز علي محمد المقدشي","managerPhone":"","city":"الاحساء"},{"region":"المنطقة الشرقية","name":"فرع محطة هلا الدمام","manager":"عبدالسلام سعيد السورقي","managerPhone":"","city":"الدمام"},{"region":"المنطقة الشرقية","name":"فرع المحرق","manager":"محمد غالب الشاعري","managerPhone":"","city":"البحرين"},{"region":"المنطقة الغربية","name":"فرع الطائف","manager":"عبدالواحد حميد الفقية","managerPhone":"","city":"الطايف"},{"region":"المنطقة الغربية","name":"فرع المدينة المنورة","manager":"فيصل محمد مرشد","managerPhone":"","city":"المدينة المنورة"},{"region":"المنطقة الغربية","name":"فرع جدة الحمدانية","manager":"عيسى عبده حسن قاسم","managerPhone":"","city":"جدة"},{"region":"المنطقة الغربية","name":"فرع مكة - العزيزية","manager":"فادي عبدالله علي سنان","managerPhone":"","city":"مكة"},{"region":"المنطقة الغربية","name":"فرع جدة -البوادي","manager":"عبدالرحمن محمد العكشي","managerPhone":"","city":"جدة"},{"region":"المنطقة الغربية","name":"فرع المدينة المنورة - حي السلام","manager":"طارق محمد عبدالله","managerPhone":"","city":"المدينة المنورة"},{"region":"المنطقة الغربية","name":"فرع جدة الصفا","manager":"عادل علي احمد الحزمي","managerPhone":"","city":"جدة"},{"region":"المنطقة الغربية","name":"فرع جدة السنابل","manager":"عبدالباري حاميم","managerPhone":"","city":"جدة"},{"region":"المنطقة الغربية","name":"فرع مكة - جبل عمر","manager":"طه عبدالهادي الحميدي","managerPhone":"","city":"مكة"},{"region":"المنطقة الشمالية","name":"فرع عرعر","manager":"ماجد عبدالرزاق قايد","managerPhone":"","city":"عرعر"},{"region":"المنطقة الشمالية","name":"فرع تبوك - حي الدرة","manager":"محمد احمد العواضي","managerPhone":"","city":"تبوك"},{"region":"المنطقة الشمالية","name":"فرع طبرجل","manager":"عرفج حسن سبتان","managerPhone":"","city":"طبرجل"},{"region":"المنطقة الشمالية","name":"فرع حائل","manager":"جميل حميد علي","managerPhone":"","city":"حائل"},{"region":"المنطقة الشمالية","name":"فرع سكاكا","manager":"عبدالعليم نصر","managerPhone":"","city":"سكاكا"},{"region":"المنطقة الشمالية","name":"فرع دومة الجندل","manager":"عبدالباري الشرفي","managerPhone":"","city":"دومة الجندل"}];
 const PROTECTED_LEGACY_BRANCHES_V5=['الرس'];
 const BRANCH_ALIAS_V5={"فرع بريدة":"بريدة الصفراء","فرع الندوة":"الندوة","فرع السلي":"السلي","فرع النسيم":"النسيم","فرع بريدة - حي النسيم":"بريدة النسيم","فرع الروضة":"الروضة","فرع عنيزة":"عنيزة","فرع الروابي":"الروابي","فرع النهضة":"النهضة","فرع الجزيرة":"الجزيرة","فرع محطة هلا طريق القصيم":"الغاط","فرع العقيق":"العقيق","فرع المصيف":"المصيف","فرع العارض":"العارض","فرع طريق الثمامة":"الثمامة","فرع خميس مشيط - حي المعمورة":"خميس مشيط المعمورة","فرع النرجس":"النرجس","فرع اليرموك":"اليرموك","فرع الياسمين":"الياسمين","فرع نجران":"نجران","فرع محطة هلا الرياض":"محطة هلا الرياض","فرع البديعة":"البديعة","فرع الخرج - النزهة":"الخرج النزهة","فرع ديراب":"ديراب","فرع الشفا":"الشفاء","فرع السويدي":"السويدي","فرع العزيزية":"العزيزية","فرع الخرج":"الخرج الخزامى","فرع ضاحية لبن":"ظهرة لبن","فرع الدار البيضاء":"الدار البيضاء","فرع صناعية الرياض":"الصناعية","فرع حي نمار":"العوالي نمار","فرع الخبر":"الخبر","فرع الدمام الفيصلية":"الدمام الفيصلية","فرع الدمام الشاطئ":"الدمام الشاطئ","فرع الاحساء":"الاحساء السليمانية","فرع حفر الباطن - حي الفيصلية":"حفر الباطن","فرع الهملة":"__NEW__","فرع توبلي":"__NEW__","فرع الاحساء - حي المزروع":"الاحساء المزروع","فرع محطة هلا الدمام":"هلا الدمام","فرع المحرق":"__NEW__","فرع الطائف":"الطائف","فرع المدينة المنورة":"المدينة المنورة الاسكان","فرع جدة الحمدانية":"جدة الحمدانية","فرع مكة - العزيزية":"مكة العزيزية","فرع جدة -البوادي":"جدة البوادي","فرع المدينة المنورة - حي السلام":"المدينة المنورة السلام","فرع جدة الصفا":"جدة الصفا","فرع جدة السنابل":"جدة السنابل","فرع مكة - جبل عمر":"مكة جبل عمر","فرع عرعر":"عرعر","فرع تبوك - حي الدرة":"تبوك","فرع طبرجل":"طبرجل","فرع حائل":"حائل","فرع سكاكا":"سكاكا","فرع دومة الجندل":"دومة الجندل"};
 // تأكيد مطابقة فرع الغاط بالاسم القديم سواء كان "الغاط" أو "فرع الغاط"
@@ -2105,7 +2105,7 @@ A('دورات متابعة الفروع',['الفرع','الدورة','التا�
   }
   function gsMetrics(){const L=E(),latest=e=>last(smOf(e));return {total:L.length,tested:L.filter(e=>smOf(e).length).length,untested:L.filter(e=>!smOf(e).length).length,simPass:L.filter(e=>{const s=latest(e);return s&&+s.pct>=PASS}).length,simFail:L.filter(e=>{const s=latest(e);return s&&+s.pct<PASS}).length,need:L.filter(e=>fs(e)==='غير جاهز – يحتاج تدخل إضافي').length,ready:L.filter(e=>fs(e)==='ناجح داخلياً – جاهز للاختبار الرسمي').length}}
   function gsDashCard(){const m=gsMetrics(),s=GS(),a=db.healthEducationSync.lastAutoCheck||{};return `<div class="card"><h2>🧪 نتائج محاكاة التثقيف الصحي</h2><div class="grid"><div class="k"><b>${m.total}</b><span>إجمالي الموظفين</span></div><div class="k"><b>${m.tested}</b><span>المختبرين</span></div><div class="k"><b>${m.untested}</b><span>غير المختبرين</span></div><div class="k t"><b>${m.simPass}</b><span>ناجحون في المحاكاة</span></div><div class="k a"><b>${m.simFail}</b><span>غير مجتازين المحاكاة</span></div><div class="k r"><b>${m.need}</b><span>يحتاجون تدخلًا إضافيًا</span></div><div class="k t"><b>${m.ready}</b><span>جاهزون للاختبار الرسمي</span></div></div><p class="muted">حالة المصدر: ${esc(s.connectionStatus||'غير متصل')} — آخر فحص: ${esc(s.lastCheck||'لم يتم بعد')} — نتائج تحتاج مراجعة: ${s.newResultsCount||0}</p><div class="bar"><button class="btn p" onclick="go('gsync')">🔄 نتائج التثقيف الصحي</button><button class="btn" onclick="gsCheckForNewResults_().then(()=>{render();toast('تم فحص نتائج التثقيف الصحي')})">فحص الآن</button></div></div>`}
-  const _dashGS=dash;dash=function(){return _dashGS()+simtrkDashCard()+feeCard()};
+  const _dashGS=dash;dash=function(){simtrkAutoCheck();simBackupCheck();return _dashGS()+simtrkDashCard()+feeCard()};
   const _profileGS=profile;profile=function(){let h=_profileGS();const e=emp(cur);if(!e)return h;const sm=smOf(e).slice().sort((a,b)=>String(b.date||'').localeCompare(String(a.date||'')));return h+`<div class="card"><h2>نتائج محاكاة التثقيف الصحي</h2>${sm.length?T_(['المحاولة','التاريخ','النموذج','النسبة','النتيجة','المصدر','الصحيحة','الخاطئة','بلا إجابة','المدة','اللغة'],sm.map(s=>[ORD[s.n]||s.n,s.date,esc(s.model)||'—',s.pct+'%',badge(s.result),esc(s.source)||'—',s.correct??'—',s.incorrect??'—',s.unanswered??'—',s.duration!=null?s.duration+' دقيقة':'—',esc(s.language)||'—'])):'<p class="muted">لا توجد محاولات محاكاة تثقيف صحي.</p>'}</div>`}
   const _repPageGS=repPage;
   repPage=function(){if(R.type==='gsim')return gsReportPage();return _repPageGS()};
@@ -2142,66 +2142,191 @@ const SIMTRK_ST={active:'نشط',completed_ready:'جاهز للاختبار ال
 const SIMTRK_MODS=[['M1','الوحدة الأولى (M1)'],['M2','الوحدة الثانية (M2)'],['M3','الوحدة الثالثة (M3)'],['M4','الوحدة الرابعة (M4)'],['TP','أسئلة الدروس (TP)']];
 const SIMTRK_PASS=65;
 function simtrkObjs(vr){const v=(vr&&vr.values)||[];const hi=v.findIndex(r=>r&&r.some(c=>c!==''));if(hi<0)return[];const h=v[hi];return v.slice(hi+1).filter(r=>r&&r.some(c=>c!=='')).map(r=>{const o={};h.forEach((k,i)=>o[k]=r[i]??'');return o})}
-const simtrkKey=e=>String((e&&e.empNo)||'').trim();
-async function simtrkLoad(){
-  let tok;try{tok=await hcToken(false)}catch(e){tok=await hcToken(true)}
+function nk(v){return String(v??'').trim().replace(/^0+(?=\d)/,'')}
+function simtrkKey(e){return nk(e&&e.empNo)}
+async function simtrkLoad(silent){
+  let tok;try{tok=await hcToken(false)}catch(e){if(silent)throw e;tok=await hcToken(true)}
   const r=await fetch('https://sheets.googleapis.com/v4/spreadsheets/'+SIMTRK.SHEET_ID+'/values:batchGet?ranges=Attempts!A:R&ranges=Employees!A:R&ranges=AttemptQuestions!A:L',{headers:{Authorization:'Bearer '+tok}});
   if(!r.ok)throw new Error(r.status+': '+(await r.text()).slice(0,200));
   const b=await r.json();
   const att=simtrkObjs(b.valueRanges[0]),emp=simtrkObjs(b.valueRanges[1]),aq=simtrkObjs(b.valueRanges[2]);
   const byEmp={};
-  att.forEach(a=>{const k=String(a.employee_id).trim();const x=byEmp[k]||(byEmp[k]={n:0,pass:0,fail:0,last:''});x.n++;if(a.result==='pass')x.pass++;if(a.result==='fail')x.fail++;const t=String(a.ended_at||a.started_at||'');if(t>x.last)x.last=t});
+  att.forEach(a=>{const k=nk(a.employee_id);const x=byEmp[k]||(byEmp[k]={n:0,pass:0,fail:0,last:''});x.n++;if(a.result==='pass')x.pass++;if(a.result==='fail')x.fail++;const t=String(a.ended_at||a.started_at||'');if(t>x.last)x.last=t});
   const mod={};SIMTRK_MODS.forEach(([m])=>mod[m]={n:0,c:0});
   let unans=0;
   aq.forEach(q=>{if(q.final_status==='unanswered')unans++;const m=String(q.qid||'').split('-')[0];if(!mod[m])return;const ic=String(q.is_correct).toUpperCase();if(ic==='TRUE'||ic==='FALSE'){mod[m].n++;if(ic==='TRUE')mod[m].c++}});
   const timeouts=att.filter(a=>/timeout/i.test(String(a.end_reason||''))).length;
-  SIMTRK.data={att:att.length,emp,byEmp,mod,aqTotal:aq.length,unansPct:aq.length?Math.round(1000*unans/aq.length)/10:0,timeouts,at:new Date().toISOString()};
+  const byLang={};att.forEach(a=>{const l=String(a.lang||'—');const x=byLang[l]||(byLang[l]={n:0,pass:0});x.n++;if(a.result==='pass')x.pass++});
+  SIMTRK.data={att:att.length,emp,byEmp,mod,byLang,aqTotal:aq.length,unansPct:aq.length?Math.round(1000*unans/aq.length)/10:0,timeouts,at:new Date().toISOString()};
   SIMTRK.err='';
 }
-window.simtrkRefresh=async()=>{SIMTRK.busy=true;SIMTRK.err='';try{await simtrkLoad()}catch(e){SIMTRK.err='تعذر التحديث: '+(e.message||e)}finally{SIMTRK.busy=false}render()};
+window.simtrkRefresh=async()=>{SIMTRK.busy=true;SIMTRK.err='';try{await simtrkLoad(false)}catch(e){SIMTRK.err='تعذر التحديث: '+(e.message||e)}finally{SIMTRK.busy=false}render()};
+function simtrkAge(){return SIMTRK.data?Date.now()-Date.parse(SIMTRK.data.at):Infinity}
+function simtrkAutoCheck(){
+  // تحديث تلقائي صامت مرة كل 24 ساعة، بشرط وجود رمز دخول صالح، ودون نافذة منبثقة
+  if(SIMTRK.busy||simtrkAge()<864e5)return;
+  if(Date.now()-(SIMTRK.autoAt||0)<6e5)return;
+  if(!(HCGS.token&&Date.now()<HCGS.exp-60000))return;
+  SIMTRK.autoAt=Date.now();SIMTRK.busy=true;
+  simtrkLoad(true).then(()=>{SIMTRK.busy=false;SIMTRK.err='';render()}).catch(e=>{SIMTRK.busy=false;SIMTRK.err='تعذر التحديث التلقائي: '+(e.message||e);render()});
+}
+async function simBackupCheck(){
+  // نسخة احتياطية أسبوعية صامتة داخل نفس الجدول (ورقة backup_weekly)
+  const last=Date.parse((db.settings&&db.settings.lastWeeklyBackup)||'')||0;
+  if(Date.now()-last<7*864e5)return;
+  if(!(HCGS.token&&Date.now()<HCGS.exp-60000))return;
+  if(SIMTRK.backupBusy)return;SIMTRK.backupBusy=true;
+  try{
+    const json=JSON.stringify(db);
+    const rows=[['chunk']];for(let i=0;i<json.length;i+=45000)rows.push([json.slice(i,i+45000)]);
+    await hcGsWrite('backup_weekly',rows);
+    db.settings.lastWeeklyBackup=new Date().toISOString();save();
+  }catch(e){console.warn('النسخة الأسبوعية فشلت',e)}
+  finally{SIMTRK.backupBusy=false}
+}
 function simtrkStats(){
   const d=SIMTRK.data;if(!d)return null;
-  const L=E(),pmap=new Map(d.emp.map(x=>[String(x.employee_id).trim(),x])),DAY=864e5,now=Date.now();
+  const L=E(),pmap=new Map(d.emp.map(x=>[nk(x.employee_id),x])),DAY=864e5,now=Date.now();
   const matched=L.filter(e=>pmap.has(simtrkKey(e)));
   const ready=matched.filter(e=>pmap.get(simtrkKey(e)).status==='completed_ready').length;
   const mustTrain=matched.filter(e=>pmap.get(simtrkKey(e)).status==='suspended_failures').length;
   const idle=matched.filter(e=>{if(pmap.get(simtrkKey(e)).status!=='active')return false;const m=d.byEmp[simtrkKey(e)];const t=m&&m.last?Date.parse(m.last):0;return !t||now-t>14*DAY}).length;
-  const mismatch=matched.filter(e=>pmap.get(simtrkKey(e)).status==='completed_ready'&&[STATUSES[0],STATUSES[1],STATUSES[2],STATUSES[3]].includes(fs(e))).length;
   const weak=SIMTRK_MODS.map(([m,l])=>({name:l,pct:d.mod[m].n?Math.round(1000*d.mod[m].c/d.mod[m].n)/10:null})).filter(x=>x.pct!==null).sort((a,b)=>a.pct-b.pct)[0]||null;
-  return {ready,mustTrain,idle,mismatch,weak,unansPct:d.unansPct,timeouts:d.timeouts,at:d.at};
+  return {ready,mustTrain,idle,conflicts:simtrkConflicts().length,weak,unansPct:d.unansPct,timeouts:d.timeouts,at:d.at};
+}
+function simtrkConflicts(){
+  const d=SIMTRK.data;if(!d)return[];
+  const pm=new Map(d.emp.map(x=>[nk(x.employee_id),x]));
+  const early=[STATUSES[0],STATUSES[1],STATUSES[2],STATUSES[3]],late=[STATUSES[8],STATUSES[9],STATUSES[10]];
+  const out=[];
+  E().forEach(e=>{const p=pm.get(simtrkKey(e));if(!p)return;const f=fs(e);
+    if(p.status==='completed_ready'&&early.includes(f))out.push({e,p,f,why:'جاهز في المنصة، والمتابعة ما زالت في مرحلة مبكرة'});
+    if(p.status==='suspended_failures'&&late.includes(f))out.push({e,p,f,why:'موقوف في المنصة، والمتابعة تعرضه ناجحًا أو مكتملًا'});
+  });
+  return out;
 }
 function simtrkDashCard(){
   const s=simtrkStats();
   const head='<div class="card"><h2>🧪 من منصة التدريب (للمتابعة فقط، لا يغيّر الحالة الرسمية)</h2>';
   if(!s)return head+'<p class="muted">اضغط «تحديث من المنصة» في تبويب «متابعة المحاكاة» لعرض البيانات.</p></div>';
-  return head+`<div class="grid"><div class="k t"><b>${s.ready}</b><span>جاهزون في المنصة (4 نجاحات)</span></div><div class="k r"><b>${s.mustTrain}</b><span>ملزمون بالتدريب بعد الرسوب</span></div><div class="k a"><b>${s.idle}</b><span>بلا نشاط منذ 14 يومًا</span></div><div class="k a"><b>${s.mismatch}</b><span>تعارض: جاهز في المنصة وما زال في المتابعة مرحلة مبكرة</span></div><div class="k b"><b>${s.weak?esc(s.weak.name)+' — '+s.weak.pct+'%':'—'}</b><span>أضعف وحدة (الحد ${SIMTRK_PASS}%)</span></div><div class="k o"><b>${s.unansPct}%</b><span>أسئلة بلا إجابة (ضغط الوقت) · ${s.timeouts} محاولة انتهى وقتها</span></div></div><p class="muted">آخر تحديث: ${esc(new Date(s.at).toLocaleString('ar-SA'))}</p></div>`;
+  const hrs=Math.round(simtrkAge()/36e5);
+  const stale=hrs>=24?`<p class="w" style="color:#b91c1c">⚠️ بيانات المنصة قديمة (منذ ${hrs} ساعة). اضغط «تحديث من المنصة».</p>`:'';
+  return head+stale+`<div class="grid"><div class="k t"><b>${s.ready}</b><span>جاهزون في المنصة (4 نجاحات)</span></div><div class="k r"><b>${s.mustTrain}</b><span>ملزمون بالتدريب بعد الرسوب</span></div><div class="k a"><b>${s.idle}</b><span>بلا نشاط منذ 14 يومًا</span></div><div class="k a"><b>${s.conflicts}</b><span>تعارضات تحتاج مراجعة</span></div><div class="k b"><b>${s.weak?esc(s.weak.name)+' — '+s.weak.pct+'%':'—'}</b><span>أضعف وحدة (الحد ${SIMTRK_PASS}%)</span></div><div class="k o"><b>${s.unansPct}%</b><span>أسئلة بلا إجابة (ضغط الوقت) · ${s.timeouts} محاولة انتهى وقتها</span></div></div><p class="muted">آخر تحديث: ${esc(new Date(s.at).toLocaleString('ar-SA'))}</p></div>`;
 }
 function simtrkPage(){
   const d=SIMTRK.data,L=E();
   const head=`<div class="card"><h2>🧪 متابعة المحاكاة — منصة التدريب</h2><p class="muted">هذه نتائج محاكاة تدريبية فقط، ولا تدخل الاختبارات الرسمية ولا تغيّر حالة الموظف الرسمية. الحالة الرسمية تبقى من نظام المتابعة.</p><button class="btn p" onclick="simtrkRefresh()">${SIMTRK.busy?'…جاري التحديث':'🔄 تحديث من المنصة'}</button>${SIMTRK.err?`<p class="muted">${esc(SIMTRK.err)}</p>`:''}${d?`<p class="muted">آخر تحديث: ${esc(new Date(d.at).toLocaleString('ar-SA'))}</p>`:'<p class="muted">اضغط «تحديث من المنصة» لعرض البيانات.</p>'}</div>`;
   if(!d)return head;
-  const platKeys=new Set(d.emp.map(x=>String(x.employee_id).trim()));
+  const platKeys=new Set(d.emp.map(x=>nk(x.employee_id)));
   const followKeys=new Set(L.map(simtrkKey));
   const entered=L.filter(e=>platKeys.has(simtrkKey(e))).length;
-  const platOnly=d.emp.filter(x=>!followKeys.has(String(x.employee_id).trim()));
+  const platOnly=d.emp.filter(x=>!followKeys.has(nk(x.employee_id)));
   const stat=`<div class="card"><h2>الملخص</h2><div class="grid"><div class="k"><b>${L.length}</b><span>موظفو نظام المتابعة</span></div><div class="k t"><b>${entered}</b><span>دخلوا المنصة</span></div><div class="k a"><b>${L.length-entered}</b><span>لم يدخلوا المنصة</span></div><div class="k r"><b>${platOnly.length}</b><span>في المنصة وغير مسجلين عندنا</span></div></div></div>`;
   const modRows=SIMTRK_MODS.map(([m,l])=>{const x=d.mod[m];const pct=x.n?Math.round(1000*x.c/x.n)/10:null;return[esc(l),x.n,pct===null?'—':pct+'%',pct===null?'—':(pct>=SIMTRK_PASS?'✅ فوق الحد':'⚠️ تحت الحد')]});
   const tM=`<div class="card"><h2>نسبة الإجابات الصحيحة حسب الوحدة</h2><p class="muted">تُحسب من الأسئلة المجابة فقط. الحد ${SIMTRK_PASS}%. عدد الأسئلة: ${d.aqTotal}، بلا إجابة: ${d.unansPct}%، محاولات انتهى وقتها: ${d.timeouts}.</p>${T_(['الوحدة','عدد الأسئلة المجابة','نسبة الصحيح','الحالة'],modRows)}</div>`;
-  const rowsA=L.map(e=>{const k=simtrkKey(e),p=platKeys.has(k)?(d.emp.find(x=>String(x.employee_id).trim()===k)||{}):null,m=d.byEmp[k]||{n:0,pass:0,fail:0,last:''};const b=bById(e.branchId)||{};return[esc(e.name||'—'),esc(e.empNo||'—'),esc(bn(e)||b.name||'—'),p?'نعم':'لا',p?esc(SIMTRK_ST[p.status]||p.status||'—'):'—',m.n,m.pass,m.fail,m.last?esc(m.last.slice(0,10)):'—']});
+  const conf=simtrkConflicts();
+  const tC=`<div class="card"><h2>تعارضات تحتاج مراجعتك (${conf.length})</h2><p class="muted">حالة المنصة لا تطابق حالة المتابعة الرسمية. لا تُعدَّل تلقائيًا.</p>${conf.length?T_(['الموظف','الرقم الوظيفي','حالة المتابعة','حالة المنصة','ملاحظة'],conf.map(c=>[esc(c.e.name||'—'),esc(c.e.empNo||'—'),esc(c.f),esc(SIMTRK_ST[c.p.status]||c.p.status),esc(c.why)])):'<p class="muted">لا توجد تعارضات.</p>'}</div>`;
+  const rowsA=L.map(e=>{const k=simtrkKey(e),p=platKeys.has(k)?(d.emp.find(x=>nk(x.employee_id)===k)||{}):null,m=d.byEmp[k]||{n:0,pass:0,fail:0,last:''};const b=bById(e.branchId)||{};return[esc(e.name||'—'),esc(e.empNo||'—'),esc(bn(e)||b.name||'—'),p?'نعم':'لا',p?esc(SIMTRK_ST[p.status]||p.status||'—'):'—',m.n,m.pass,m.fail,m.last?esc(m.last.slice(0,10)):'—']});
   const tA=`<div class="card"><h2>موظفو نظام المتابعة وحالتهم في المحاكاة</h2>${T_(['الموظف','الرقم الوظيفي','الفرع','دخل المنصة؟','حالة المنصة','المحاولات','الناجحة (محاكاة)','الراسبة (محاكاة)','آخر محاولة'],rowsA)}</div>`;
-  const rowsB=platOnly.map(x=>{const k=String(x.employee_id).trim(),m=d.byEmp[k]||{n:0,pass:0,fail:0,last:''};return[esc(x.employee_name||'—'),esc(k),esc(x.branch_id||'—'),esc(SIMTRK_ST[x.status]||x.status||'—'),m.n,m.pass,m.fail]});
+  const rowsB=platOnly.map(x=>{const k=nk(x.employee_id),m=d.byEmp[k]||{n:0,pass:0,fail:0,last:''};return[esc(x.employee_name||'—'),esc(k),esc(x.branch_id||'—'),esc(SIMTRK_ST[x.status]||x.status||'—'),m.n,m.pass,m.fail]});
   const tB=`<div class="card"><h2>دخلوا المنصة ولا يوجدون في نظام المتابعة</h2><p class="muted">لا تُضاف لنظام المتابعة إلا بموافقتك، ولا تُحسب لهم أي نتيجة رسمية.</p>${rowsB.length?T_(['الاسم','الرقم الوظيفي','الفرع (المنصة)','حالة المنصة','المحاولات','الناجحة (محاكاة)','الراسبة (محاكاة)'],rowsB):'<p class="muted">لا يوجد.</p>'}</div>`;
-  return head+stat+tM+tA+tB;
+  return head+stat+tM+tC+tA+tB;
 }
-function feeCard(){const L=E().filter(e=>!e.closed),P=SIMTRK.data?new Map(SIMTRK.data.emp.map(x=>[String(x.employee_id).trim(),x.status])):null;const ready=e=>!!P&&P.get(simtrkKey(e))==='completed_ready';
+function feeCard(){const L=E().filter(e=>!e.closed),P=SIMTRK.data?new Map(SIMTRK.data.emp.map(x=>[nk(x.employee_id),x.status])):null;const ready=e=>!!P&&P.get(simtrkKey(e))==='completed_ready';
 const paid=L.filter(e=>failsInCycle(e)>=2),risk=paid.filter(e=>!ready(e)),safe=paid.filter(ready);const amt=e=>failsInCycle(e)>=3?1132:185;const sum=a=>a.reduce((t,e)=>t+amt(e),0);
 return `<div class="card"><h2>💰 الرسوم المدفوعة: حجز آمن أو مبلغ معرّض للهدر</h2><p class="muted">التدريب والمحاكاة في المنصة مجانية، لكن كل محاولة رسمية مدفوعة. الأرقام هنا للموظفين الذين وصلوا رسوبين أو أكثر.</p><div class="grid"><div class="k a"><b>${risk.length}</b><span>غير جاهزين في المنصة، المبلغ المعرّض للهدر: ${sum(risk).toLocaleString('ar-SA')} ريال</span></div><div class="k t"><b>${safe.length}</b><span>جاهزون في المنصة، الحجز آمن: ${sum(safe).toLocaleString('ar-SA')} ريال</span></div><div class="k"><b>${L.filter(e=>failsInCycle(e)===1).length}</b><span>إعادة مجانية (رسوب واحد)</span></div></div>${P?'':'<p class="muted">حدّث بيانات المنصة لتظهر الجاهزية.</p>'}</div>`}
+RTY.simr='تقرير المحاكاة والجاهزية (منصة التدريب)';
+const _repSim=rep;rep=function(){if(R.type!=='simr')return _repSim();
+ const d=SIMTRK.data,L=E().filter(e=>(!R.branch||e.branchId===R.branch));
+ const rows=L.map(e=>{const k=simtrkKey(e),p=d?d.emp.find(x=>nk(x.employee_id)===k):null,m=d?d.byEmp[k]:null;const b=bById(e.branchId)||{};return[(rg(b.regionId)||{}).name||'—',bn(e)||b.name||'—',e.name||'—',e.empNo||'—',p?'نعم':'لا',p?(SIMTRK_ST[p.status]||p.status):'—',m?m.n:0,m?m.pass:0,m?m.fail:0,m&&m.last?m.last.slice(0,10):'—',fs(e)]});
+ const entered=rows.filter(r=>r[4]==='نعم').length;
+ return {title:'تقرير المحاكاة والجاهزية (منصة التدريب)',head:['المنطقة','الفرع','اسم الموظف','الرقم الوظيفي','دخل المنصة؟','حالة المنصة','المحاولات','الناجحة (محاكاة)','الراسبة (محاكاة)','آخر محاولة','الحالة الرسمية (المتابعة)'],rows,sum:[['موظفو المتابعة',L.length],['دخلوا المنصة',entered],['تعارضات تحتاج مراجعة',d?simtrkConflicts().length:0],['آخر تحديث للمنصة',d?new Date(d.at).toLocaleString('ar-SA'):'لم يُحدَّث بعد']]};
+};
+const _exportRepSim=exportRep;exportRep=function(){if(R.type!=='simr')return _exportRepSim();const d=rep(),wb=XLSX.utils.book_new();wb.Workbook={Views:[{RTL:true}]};XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([d.head,...d.rows]),'المحاكاة والجاهزية');XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([['البيان','القيمة'],...d.sum]),'الإحصائيات');XLSX.writeFile(wb,'simulation-readiness-'+today()+'.xlsx');toast('تم تصدير تقرير المحاكاة والجاهزية')};
 const _pfCyc=profile;profile=()=>{let h=_pfCyc();const e=emp(cur);if(!e)return h;const n=failsInCycle(e);
 const nxt=n===0?'المحاولة الأولى ضمن الدورة (رسوم الدورة 1132 ريال)':n===1?'الإعادة الأولى: مجانية':n===2?'الإعادة الثانية: رسوم الاختبار 185 ريال':'رسب 3 مرات: رسوم الدورة كاملة 1132 ريال، ويعود للدراسة وتبدأ دورة جديدة';
-const gate=(n>=2&&!(SIMTRK.data&&(SIMTRK.data.emp.find(x=>String(x.employee_id).trim()===simtrkKey(e))||{}).status==='completed_ready'))?'<p class="w" style="color:#b91c1c">⚠️ قبل حجز محاولة مدفوعة: تحقق من جاهزية الموظف في المنصة (4 نجاحات).</p>':'';
-const k=simtrkKey(e),p=SIMTRK.data?SIMTRK.data.emp.find(x=>String(x.employee_id).trim()===k):null,m=SIMTRK.data?SIMTRK.data.byEmp[k]:null;
+const gate=(n>=2&&!(SIMTRK.data&&(SIMTRK.data.emp.find(x=>nk(x.employee_id)===simtrkKey(e))||{}).status==='completed_ready'))?'<p class="w" style="color:#b91c1c">⚠️ قبل حجز محاولة مدفوعة: تحقق من جاهزية الموظف في المنصة (4 نجاحات).</p>':'';
+const k=simtrkKey(e),p=SIMTRK.data?SIMTRK.data.emp.find(x=>nk(x.employee_id)===k):null,m=SIMTRK.data?SIMTRK.data.byEmp[k]:null;
 const pb=`<div class="card"><h2>المسار والمنصة</h2><p><b>${esc(nxt)}</b></p>${gate}${p?`<p>الحالة في المنصة: ${esc(SIMTRK_ST[p.status]||p.status)} · المحاولات: ${m?m.n:0} (ناجحة ${m?m.pass:0} · راسبة ${m?m.fail:0})</p>`:'<p class="muted">غير موجود في المنصة، أو لم يتم تحديث بيانات المنصة بعد.</p>'}</div>`;
 return h.replace('<div class="card">',pb+'<div class="card">')};
 if(!NAV.some(x=>x[0]==='simtrk'))NAV.splice(NAV.findIndex(x=>x[0]==='reports'),0,['simtrk','🧪','متابعة المحاكاة']);
+
+/* ===== تحسينات: التقويم، الفروع، اللغات، التأخر، البحث، سجل التغييرات والتراجع ===== */
+const SIMTRK_LAG_DAYS=7;
+const AUD={prev:null,max:800};
+function audSnap(d){const o={};Object.keys(d).forEach(k=>{if(Array.isArray(d[k])&&k!=='audit')o[k]=new Map(d[k].filter(x=>x&&x.id!=null).map(x=>[String(x.id),JSON.stringify(x)]))});return o}
+function audRecord(d){
+  const cur=audSnap(d);
+  if(AUD.prev){
+    const now=new Date().toISOString(),out=[];
+    Object.keys(cur).forEach(k=>{
+      const pv=AUD.prev[k]||new Map(),cv=cur[k];
+      cv.forEach((v,id)=>{
+        if(!pv.has(id))out.push({at:now,col:k,id,act:'إضافة'});
+        else if(pv.get(id)!==v)out.push({at:now,col:k,id,act:'تعديل',before:pv.get(id).slice(0,1500)});
+      });
+      pv.forEach((v,id)=>{if(!cv.has(id))out.push({at:now,col:k,id,act:'حذف',before:v})});
+    });
+    if(out.length){d.audit=(d.audit||[]).concat(out);if(d.audit.length>AUD.max)d.audit=d.audit.slice(-AUD.max)}
+  }
+  AUD.prev=cur;
+}
+const _stSaveAud=Store.save;Store.save=function(d){try{audRecord(d)}catch(e){console.warn('سجل التغييرات',e)}return _stSaveAud.call(this,d)};
+window.audRestore=i=>{
+  const L=(db.audit||[]).filter(x=>x.act==='حذف');const en=L[L.length-1-i];if(!en)return;
+  if(!db[en.col]||db[en.col].some(x=>String(x.id)===String(en.id)))return toast('السجل موجود أصلًا','err');
+  let obj;try{obj=JSON.parse(en.before)}catch(e){return toast('تعذر قراءة السجل المحذوف','err')}
+  db[en.col].push(obj);save();render();toast('تمت استعادة السجل');
+};
+function auditCard(){
+  const L=(db.audit||[]).slice().reverse().slice(0,40),wk=Date.now()-7*864e5;
+  const dels=(db.audit||[]).filter(x=>x.act==='حذف');
+  const rows=L.map(x=>{const idx=dels.indexOf(x);const isDel=x.act==='حذف';
+    const btn=isDel&&Date.parse(x.at)>wk?`<button class="btn s" onclick="audRestore(${dels.length-1-idx})">استعادة</button>`:'';
+    return [esc(new Date(x.at).toLocaleString('ar-SA')),esc(x.col),esc(x.act),esc(x.id),btn]});
+  return `<div class="card"><h2>سجل التغييرات (آخر 40)</h2><p class="muted">يُسجل كل إضافة وتعديل وحذف. الحذف يمكن التراجع عنه خلال 7 أيام.</p>${rows.length?T_(['الوقت','البيانات','العملية','المعرّف',''],rows):'<p class="muted">لا توجد تغييرات بعد.</p>'}</div>`;
+}
+const _settingsAud=settingsPage;settingsPage=function(){return _settingsAud()+auditCard()};
+function examCard(){
+  const t=today(),wk=new Date(Date.now()+7*864e5).toISOString().slice(0,10);
+  const L=E().filter(e=>!e.closed&&e.examDate);
+  const soon=L.filter(e=>e.examDate>=t&&e.examDate<=wk).sort((a,b)=>a.examDate.localeCompare(b.examDate));
+  const late=L.filter(e=>e.examDate<t&&[STATUSES[5],STATUSES[6]].includes(fs(e)));
+  const row=(e,tag)=>[esc(e.examDate),esc(e.name||'—'),esc(e.empNo||'—'),esc(bn(e)||'—'),tag];
+  return `<div class="card"><h2>📅 الاختبارات الرسمية: خلال 7 أيام، والمتأخرة نتيجتها</h2>${soon.length||late.length?T_(['الموعد','الموظف','الرقم الوظيفي','الفرع','الحالة'],soon.map(e=>row(e,'قادم')).concat(late.map(e=>row(e,'⚠ بلا نتيجة مسجلة')))):'<p class="muted">لا توجد اختبارات قادمة أو متأخرة.</p>'}</div>`;
+}
+const _dashExam=dash;dash=function(){simtrkAutoCheck();simBackupCheck();return _dashExam()+examCard()};
+function branchCmp(){
+  const L=E(),d=SIMTRK.data,pm=d?new Map(d.emp.map(x=>[nk(x.employee_id),x.status])):new Map();
+  const by={};L.forEach(e=>{const b=bn(e)||'—';const x=by[b]||(by[b]={n:0,ready:0,fail:0,plat:0,platReady:0});x.n++;const f=fs(e);if(f===STATUSES[4]||f===STATUSES[5])x.ready++;if(f===STATUSES[7])x.fail++;const ps=pm.get(simtrkKey(e));if(ps)x.plat++;if(ps==='completed_ready')x.platReady++});
+  const rows=Object.entries(by).sort((a,b)=>b[1].n-a[1].n).map(([b,x])=>[esc(b),x.n,x.plat,x.platReady,x.ready,x.fail]);
+  return `<div class="card"><h2>مقارنة الفروع</h2>${rows.length?T_(['الفرع','الموظفون','دخلوا المنصة','جاهزون في المنصة','جاهزون للاختبار','راسبون رسميًا'],rows):'<p class="muted">لا توجد بيانات.</p>'}</div>`;
+}
+function lagList(){
+  const d=SIMTRK.data;if(!d)return[];const now=Date.now();
+  return d.emp.filter(x=>x.status==='suspended_failures'&&x.suspended_at&&now-Date.parse(x.suspended_at)>SIMTRK_LAG_DAYS*864e5).map(x=>({name:x.employee_name,id:nk(x.employee_id),since:x.suspended_at.slice(0,10)}));
+}
+function langCard(){
+  const d=SIMTRK.data;if(!d||!d.byLang)return '';
+  const rows=Object.entries(d.byLang).sort((a,b)=>b[1].n-a[1].n).map(([l,x])=>[esc(l),x.n,Math.round(1000*x.pass/x.n)/10+'%']);
+  return `<div class="card"><h2>نسبة النجاح حسب لغة الاختبار (محاكاة)</h2>${T_(['اللغة','المحاولات','نسبة النجاح'],rows)}</div>`;
+}
+let SIMQ='';
+window.simSearchSet=v=>{SIMQ=String(v||'').trim();render()};
+function searchCard(){
+  const q=SIMQ,key=nk(q);
+  const head=`<div class="card"><h2>🔎 بحث بالرقم الوظيفي أو الاسم</h2><input value="${esc(q)}" placeholder="اكتب الرقم أو الاسم ثم اضغط Enter" style="width:100%;padding:8px" onkeydown="if(event.key==='Enter')simSearchSet(this.value)"></div>`;
+  if(!q)return head;
+  const e=E().find(x=>nk(x.empNo)===key||String(x.name||'').includes(q));
+  if(!e)return head+'<div class="card"><p class="muted">لا يوجد موظف بهذا الرقم أو الاسم في نظام المتابعة.</p></div>';
+  const d=SIMTRK.data,p=d?d.emp.find(x=>nk(x.employee_id)===simtrkKey(e)):null,m=d?d.byEmp[simtrkKey(e)]:null;
+  return head+`<div class="card"><h2>${esc(e.name||'—')}</h2><p>الرقم الوظيفي: ${esc(e.empNo||'—')} · الفرع: ${esc(bn(e)||'—')}</p><p><b>المتابعة الرسمية:</b> ${esc(fs(e))}</p><p><b>المنصة:</b> ${p?esc(SIMTRK_ST[p.status]||p.status)+' · محاولات '+(m?m.n:0)+' (ناجحة '+(m?m.pass:0)+' · راسبة '+(m?m.fail:0)+')':'لا يوجد في المنصة'}</p></div>`;
+}
+const _simtrkPage0=simtrkPage;simtrkPage=function(){
+  const d=SIMTRK.data;
+  const lag=lagList();
+  const lagCard=d?`<div class="card"><h2>⏳ موقوفون في المنصة منذ أكثر من ${SIMTRK_LAG_DAYS} أيام (${lag.length})</h2>${lag.length?T_(['الاسم','الرقم الوظيفي','منذ تاريخ'],lag.map(x=>[esc(x.name||'—'),esc(x.id),esc(x.since)])):'<p class="muted">لا يوجد.</p>'}</div>`:'';
+  return searchCard()+_simtrkPage0()+(d?branchCmp()+lagCard+langCard():'');
+};
 
 </script></body></html>
